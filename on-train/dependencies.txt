@@ -1,0 +1,4 @@
+react-dom
+react-router-dom
+tailwindcss
+daisyui
