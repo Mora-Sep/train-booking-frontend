@@ -1,10 +1,10 @@
 // import Header from "./Header";
-// import Footer from "./Footer";
 import { UserGlobalStateProvider } from "./UserGlobalState";
 import { BookingStepGlobalStateProvider } from "./BookingStepGlobalState";
 // import { BookingProcessGlobalStateProvider } from "./BookingProcessGlobalState";
 import { UserMenuGlobalStateProvider } from "./UserMenuGlobalState";
 import { AuthFormGlobalStateProvider } from "./AuthFormGlobalState";
+import Footer from "./../Footer";
 
 export default function Layout({ children }) {
   return (
@@ -16,7 +16,7 @@ export default function Layout({ children }) {
             <BookingStepGlobalStateProvider>
               {/* <Header /> */}
               <div>{children}</div>
-              {/* <Footer /> */}
+              <Footer />
             </BookingStepGlobalStateProvider>
             {/* </BookingProcessGlobalStateProvider> */}
           </UserMenuGlobalStateProvider>
