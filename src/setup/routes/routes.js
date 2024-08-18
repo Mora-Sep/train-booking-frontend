@@ -4,6 +4,8 @@ import Home from "../../pages/Home";
 import Login from "../../pages/Login";
 import Sign from "../../pages/Sign";
 import Layout from "../../components/Layout/Layout";
+import AdminPortal from "../../pages/AdminPortal";
+import DEOPortal from "../../pages/DEOPortal";
 
 import AdminDashboard from "../../admin/AdminDashboard";
 import UserDetails from "../../admin/UserDetails";
@@ -21,6 +23,10 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Sign" element={<Sign />} />
+
+        <Route path="/admin-portal" element={<AdminPortal />} />
+        <Route path="/deo-portal" element={<DEOPortal />} />
+
 
         {/* Admin Dashboard paths */}
         <Route path="/AdminDashboard/*" element={<AdminDashboard />} />
