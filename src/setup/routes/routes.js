@@ -5,6 +5,15 @@ import Login from "../../pages/Login";
 import Sign from "../../pages/Sign";
 import Layout from "../../components/Layout/Layout";
 
+import AdminDashboard from "../../admin/AdminDashboard";
+import UserDetails from "../../admin/UserDetails";
+import TrainDetails from "../../admin/TrainDetails";
+
+import UserDashboard from "../../user/UserDashboard";
+import BuyTicket from "../../user/BuyTicket";
+import OrderDetails from "../../user/OrderHistory";
+import Complain from "../../user/Complain";
+
 const AppRoutes = () => {
   return (
     <Layout>
@@ -12,6 +21,17 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Sign" element={<Sign />} />
+
+        {/* Admin Dashboard paths */}
+        <Route path="/AdminDashboard/*" element={<AdminDashboard />} />
+        <Route path="user-details" element={<UserDetails />} />
+        <Route path="train-details" element={<TrainDetails />} />
+
+        <Route path="/UserDashboard/*" element={<UserDashboard />} />
+        <Route path="buy-ticket" element={<BuyTicket />} />
+        <Route path="complain" element={<Complain />} />
+        <Route path="order-history" element={<OrderDetails />} />
+
       </Routes>
     </Layout>
   );
