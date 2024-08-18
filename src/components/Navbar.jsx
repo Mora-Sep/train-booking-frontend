@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = ({ isLoggedIn, profilePic }) => {
   return (
-    <div className="navbar  bg-white border-2 border-blue-200 h-18 rounded-md">
+    <div className="navbar  bg-blue-50   h-18 rounded-md">
       <div className="flex-1">
         <Link to="/" className="">
         <img src='/Main/logo-no-background.png' alt='logo' width={120} height={50} />

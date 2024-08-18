@@ -186,240 +186,240 @@ const Sign = () => {
       </div>
 
       {/* Right Column */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-gray-100 p-6 lg:p-12">
-        <div className="max-w-lg w-full bg-white p-8 rounded-lg shadow-md">
-          <h2 className="text-2xl text-black font-bold mb-6 text-center">
-            Create Your Account
-          </h2>
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            {/* First Name */}
-            <div>
-              <label
-                htmlFor="firstName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                First Name
-              </label>
-              <input
-                type="text"
-                id="firstName"
-                value={firstName}
-                onChange={handleFirstNameChange}
-                onBlur={validateFirstName}
-                placeholder="Enter your first name"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                required
-              />
-              {firstNameError && (
-                <div className="errorText">{firstNameError}</div>
-              )}
-            </div>
-            {/* Last Name */}
-            <div>
-              <label
-                htmlFor="lastName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Last Name
-              </label>
-              <input
-                type="text"
-                id="lastName"
-                value={lastName}
-                onChange={handleLastNameChange}
-                onBlur={validateLastName}
-                placeholder="Enter your last name"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                required
-              />
-              {lastNameError && (
-                <div className="errorText">{lastNameError}</div>
-              )}
-            </div>
-            {/* Username */}
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={handleUsernameChange}
-                onBlur={validateUsername}
-                placeholder="Enter your username"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                required
-              />
-              {usernameError && (
-                <div className="errorText">{usernameError}</div>
-              )}
-            </div>
-            {/* Password */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={handlePasswordChange}
-                onBlur={validatePassword}
-                placeholder="Enter your username"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                required
-              />
-              {passwordError && (
-                <div className="errorText">{passwordError}</div>
-              )}
-            </div>
-            {/* Confirm Password */}
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Confirm assword
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                onBlur={validatePassword}
-                placeholder="Enter your username"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                required
-              />
-            </div>
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                required
-              />
-            </div>
-            {/* Phone Number */}
-            <div>
-              <label
-                htmlFor="phoneNumber"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Phone Number
-              </label>
-              <input
-                type="text"
-                id="phoneNumber"
-                value={contact}
-                onChange={(e) => setContact(e.target.value)}
-                placeholder="Enter your phone number (e.g., 777123456)"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                required
-              />
-            </div>
-            {/* NIC Number */}
-            <div>
-              <label
-                htmlFor="nicNumber"
-                className="block text-sm font-medium text-gray-700"
-              >
-                NIC Number
-              </label>
-              <input
-                type="text"
-                id="nicNumber"
-                value={nic}
-                onChange={(e) => setNic(e.target.value)}
-                placeholder="Enter your NIC number"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                required
-              />
-            </div>
-            {/* Gender */}
-            <div>
-              <label
-                htmlFor="gender"
-                className="block text-sm font-medium text-gray-700"
-              >
-                NIC Number
-              </label>
-              <select
-                id="gender"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                required
-              >
-                <option value="">Select your gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-            {/* Birthday*/}
-            <div>
-              <label
-                htmlFor="birthday"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Birthday
-              </label>
-              <input
-                type="date"
-                id="birthday"
-                value={birthdate}
-                onChange={(e) => setBirthdate(e.target.value)}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                required
-              />
-            </div>
-            {/* Address */}
-            <div>
-              <label
-                htmlFor="address"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Address
-              </label>
-              <textarea
-                id="address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Enter your address"
-                rows="3"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                required
-              />
-            </div>
-            {randomError && <div className="errorText">{randomError}</div>}
-            <button
-              type="submit"
-              className="btn btn-primary w-full text-white font-semibold text-lg"
-              disabled={!isFormValid()}
+
+      <div className="relative lg:w-1/2   w-full bg-white p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl text-black font-bold mb-6 text-center">
+          Create Your Account
+        </h2>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          {/* First Name */}
+          <div>
+            <label
+              htmlFor="firstName"
+              className="block text-sm font-medium text-gray-700"
             >
-              Sign Up
-            </button>
-          </form>
-        </div>
+              First Name
+            </label>
+            <input
+              type="text"
+              id="firstName"
+              value={firstName}
+              onChange={handleFirstNameChange}
+              onBlur={validateFirstName}
+              placeholder="Enter your first name"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            />
+            {firstNameError && (
+              <div className="errorText">{firstNameError}</div>
+            )}
+          </div>
+          {/* Last Name */}
+          <div>
+            <label
+              htmlFor="lastName"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Last Name
+            </label>
+            <input
+              type="text"
+              id="lastName"
+              value={lastName}
+              onChange={handleLastNameChange}
+              onBlur={validateLastName}
+              placeholder="Enter your last name"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            />
+            {lastNameError && (
+              <div className="errorText">{lastNameError}</div>
+            )}
+          </div>
+          {/* Username */}
+          <div>
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={handleUsernameChange}
+              onBlur={validateUsername}
+              placeholder="Enter your username"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            />
+            {usernameError && (
+              <div className="errorText">{usernameError}</div>
+            )}
+          </div>
+          {/* Password */}
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
+              onBlur={validatePassword}
+              placeholder="Enter your username"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            />
+            {passwordError && (
+              <div className="errorText">{passwordError}</div>
+            )}
+          </div>
+          {/* Confirm Password */}
+          <div>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Confirm assword
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              onBlur={validatePassword}
+              placeholder="Enter your username"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+          {/* Email */}
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+          {/* Phone Number */}
+          <div>
+            <label
+              htmlFor="phoneNumber"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Phone Number
+            </label>
+            <input
+              type="text"
+              id="phoneNumber"
+              value={contact}
+              onChange={(e) => setContact(e.target.value)}
+              placeholder="Enter your phone number (e.g., 777123456)"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+          {/* NIC Number */}
+          <div>
+            <label
+              htmlFor="nicNumber"
+              className="block text-sm font-medium text-gray-700"
+            >
+              NIC Number
+            </label>
+            <input
+              type="text"
+              id="nicNumber"
+              value={nic}
+              onChange={(e) => setNic(e.target.value)}
+              placeholder="Enter your NIC number"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+          {/* Gender */}
+          <div>
+            <label
+              htmlFor="gender"
+              className="block text-sm font-medium text-gray-700"
+            >
+              NIC Number
+            </label>
+            <select
+              id="gender"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            >
+              <option value="">Select your gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          {/* Birthday*/}
+          <div>
+            <label
+              htmlFor="birthday"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Birthday
+            </label>
+            <input
+              type="date"
+              id="birthday"
+              value={birthdate}
+              onChange={(e) => setBirthdate(e.target.value)}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+          {/* Address */}
+          <div>
+            <label
+              htmlFor="address"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Address
+            </label>
+            <textarea
+              id="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Enter your address"
+              rows="3"
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+          {randomError && <div className="errorText">{randomError}</div>}
+          <button
+            type="submit"
+            className="btn btn-primary w-full text-white font-semibold text-lg"
+            disabled={!isFormValid()}
+          >
+            Sign Up
+          </button>
+        </form>
       </div>
     </div>
+
   );
 };
 
