@@ -15,29 +15,33 @@ import UserDashboard from "../../user/UserDashboard";
 import BuyTicket from "../../user/BuyTicket";
 import OrderDetails from "../../user/OrderHistory";
 import Complain from "../../user/Complain";
+import UserHome from "../../user/UserHome";
 
 const AppRoutes = () => {
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Sign" element={<Sign />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign" element={<Sign />} />
 
         <Route path="/admin-portal" element={<AdminPortal />} />
         <Route path="/deo-portal" element={<DEOPortal />} />
 
-
         {/* Admin Dashboard paths */}
-        <Route path="/AdminDashboard/*" element={<AdminDashboard />} />
-        <Route path="user-details" element={<UserDetails />} />
-        <Route path="train-details" element={<TrainDetails />} />
+        <Route path="/admin-dashboard/*" element={<AdminDashboard />}>
+          <Route path="user-details" element={<UserDetails />} />
+          <Route path="train-details" element={<TrainDetails />} />
+        </Route>
 
-        <Route path="/UserDashboard/*" element={<UserDashboard />} />
-        <Route path="buy-ticket" element={<BuyTicket />} />
-        <Route path="complain" element={<Complain />} />
-        <Route path="order-history" element={<OrderDetails />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        {/* User Home paths */}
+        <Route path="/user-home/*" element={<UserHome />}>
 
+          <Route path="buy-ticket" element={<BuyTicket />} />
+          <Route path="complain" element={<Complain />} />
+          <Route path="order-history" element={<OrderDetails />} />
+        </Route>
       </Routes>
     </Layout>
   );
