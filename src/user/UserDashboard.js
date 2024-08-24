@@ -1,41 +1,71 @@
-import React from 'react';
-import { Routes, Route, Link, Outlet } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Layout, Menu, Button } from 'antd';
+import {
+    UserOutlined,
+    DesktopOutlined,
+    ContainerOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+} from '@ant-design/icons';
+import { Outlet, Link } from 'react-router-dom';
+
+const { Sider, Content, Footer } = Layout;
+
+const items = [
+    {
+        key: '1',
+        icon: <UserOutlined />,
+        label: <Link to="/user-dashboard/user-details">User Details</Link>,
+    },
+    {
+        key: '2',
+        icon: <DesktopOutlined />,
+        label: <Link to="/user-dashboard/complain">Complain</Link>,
+    },
+    {
+        key: '3',
+        icon: <ContainerOutlined />,
+        label: <Link to="/user-dashboard/order-history">Order History</Link>,
+    },
+    // Additional menu items can be added here
+];
 
 const UserDashboard = () => {
-    return (
-        <div className="flex h-screen">
-            {/* Sidebar */}
-            <div className="w-1/4 bg-gray-800 text-white flex flex-col justify-between">
-                <div>
-                    <h2 className="text-2xl font-bold p-4">Admin Dashboard</h2>
-                    <ul className="space-y-2 p-4">
-                        <li>
-                            <Link to="buy-ticket" className="block p-2 hover:bg-gray-700 rounded">
-                                Buy Ticket
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="complain" className="block p-2 hover:bg-gray-700 rounded">
-                                Complain
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="order-history" className="block p-2 hover:bg-gray-700 rounded">
-                                Order History
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-                <div className="p-4">
-                    <button className="bg-red-600 w-full p-2 rounded">Logout</button>
-                </div>
-            </div>
+    const [collapsed, setCollapsed] = useState(false);
+    const toggleCollapsed = () => setCollapsed(!collapsed);
 
-            {/* Main Content Area */}
-            <div className="w-3/4 p-6">
-                <Outlet />
-            </div>
-        </div>
+    return (
+        <Layout style={{ minHeight: '100vh' }}>
+            <Sider
+                collapsible
+                collapsed={collapsed}
+                onCollapse={toggleCollapsed}
+                theme="dark"
+            >
+                <div className="logo" />
+                <Button
+                    type="primary"
+                    onClick={toggleCollapsed}
+                    style={{ marginBottom: 16 }}
+                >
+                    {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                </Button>
+                <Menu
+                    defaultSelectedKeys={['1']}
+                    mode="inline"
+                    theme="dark"
+                    items={items}
+                />
+            </Sider>
+            <Layout>
+                <Content style={{ padding: '0 24px', minHeight: 280 }}>
+                    <Outlet />
+                </Content>
+                <Footer style={{ textAlign: 'center' }}>
+                    <Button type="primary" danger>Logout</Button>
+                </Footer>
+            </Layout>
+        </Layout>
     );
 };
 
