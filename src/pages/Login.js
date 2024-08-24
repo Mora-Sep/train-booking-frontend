@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AuthFormGlobalState } from "../components/Layout/AuthFormGlobalState";
 import { UserGlobalState } from "../components/Layout/UserGlobalState";
 import { BookingStepGlobalState } from "../components/Layout/BookingStepGlobalState";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,6 +15,7 @@ const Login = () => {
   const { setAuthForm } = AuthFormGlobalState();
   const { bookingStep, setBookingStep } = BookingStepGlobalState();
   const { setCurrentUserData } = UserGlobalState();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(null);
   const [password, setPassword] = useState("");
@@ -73,10 +75,23 @@ const Login = () => {
       const response = await axios.post(`${BaseURL}/users/login`, postData);
 
       if (response.status === 200) {
-        Cookies.set("access-token", response.data.access_token, { expires: 1 });
-        setCurrentUserData(response.data.userData);
+        Cookies.set("access-token", response.data.token, { expires: 1 });
+
+        // Assuming `jwtToken` is your JWT token string
+        const jwtToken = response.data.token; // Example token
+
+        // Split the token into parts
+        const parts = jwtToken.split(".");
+
+        // Decode the payload
+        const decodedPayload = atob(parts[1]);
+
+        // Parse the decoded payload
+        const payload = JSON.parse(decodedPayload);
+
+        setCurrentUserData(payload);
         setBookingStep("seatReserve");
-        alert("Login Successful");
+        navigate("/");
       } else {
         alert("Something went wrong");
         throw new Error("Something went wrong");
