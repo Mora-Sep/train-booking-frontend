@@ -55,7 +55,7 @@ const Navbar = ({ profilePic }) => {
               <img
                 alt="User Profile"
                 src={
-                  currentUserData.username
+                  currentUserData?.username
                     ? profilePic
                     : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                 }
@@ -66,7 +66,7 @@ const Navbar = ({ profilePic }) => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-blue-100 text-black rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            {currentUserData.username ? (
+            {currentUserData?.username ? (
               <>
                 <li>
                   <Link to="/profile">Profile</Link>
