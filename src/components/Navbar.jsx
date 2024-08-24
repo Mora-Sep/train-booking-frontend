@@ -1,7 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { UserGlobalState } from "./Layout/UserGlobalState";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ isLoggedIn, profilePic }) => {
+const Navbar = ({ profilePic }) => {
+  const { currentUserData } = UserGlobalState();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
+  const handleSignin = () => {
+    navigate("/sign");
+  };
+
   return (
     <div className="navbar  bg-blue-50   h-18 rounded-md">
       <div className="flex-1">
@@ -37,7 +55,7 @@ const Navbar = ({ isLoggedIn, profilePic }) => {
               <img
                 alt="User Profile"
                 src={
-                  isLoggedIn
+                  currentUserData.username
                     ? profilePic
                     : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                 }
@@ -48,7 +66,7 @@ const Navbar = ({ isLoggedIn, profilePic }) => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-blue-100 text-black rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            {isLoggedIn ? (
+            {currentUserData.username ? (
               <>
                 <li>
                   <Link to="/profile">Profile</Link>
@@ -57,16 +75,16 @@ const Navbar = ({ isLoggedIn, profilePic }) => {
                   <Link to="/settings">Settings</Link>
                 </li>
                 <li>
-                  <Link to="/logout">Logout</Link>
+                  <button onClick={handleLogout}>Log out</button>
                 </li>
               </>
             ) : (
               <>
                 <li>
-                  <Link to="/sign">Sign In</Link>
+                  <button onClick={handleSignin}>Sign in</button>
                 </li>
                 <li>
-                  <Link to="/login">Login</Link>
+                  <button onClick={handleLogin}>Log in</button>
                 </li>
               </>
             )}
