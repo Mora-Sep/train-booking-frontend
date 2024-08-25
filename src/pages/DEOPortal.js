@@ -4,10 +4,12 @@ import { UserGlobalState } from "../components/Layout/UserGlobalState";
 import { AuthFormGlobalState } from "../components/Layout/AuthFormGlobalState";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 function DEOPortal() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
 
+  const navigate = useNavigate();
   const { setAuthForm } = AuthFormGlobalState();
   const { setCurrentUserData } = UserGlobalState();
   const [username, setUsername] = useState("");
@@ -60,10 +62,22 @@ function DEOPortal() {
       const response = await axios.post(`${BaseURL}/deo/auth`, postData);
 
       if (response.status === 200) {
-        alert("Login Successful");
-        Cookies.set("access-token", response.data.access_token, { expires: 1 });
-        setCurrentUserData(response.data.userData);
+        Cookies.set("access-token", response.data.token, { expires: 1 });
+        setAuthForm("deo");
+        // Assuming `jwtToken` is your JWT token string
+        const jwtToken = response.data.token; // Example token
+
+        // Split the token into parts
+        const parts = jwtToken.split(".");
+
+        // Decode the payload
+        const decodedPayload = atob(parts[1]);
+
+        // Parse the decoded payload
+        const payload = JSON.parse(decodedPayload);
+        setCurrentUserData(payload);
         //setAdmin profile Details
+        navigate("/deo");
       } else {
         throw new Error("Something went wrong");
       }

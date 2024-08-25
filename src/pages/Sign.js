@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { UserGlobalState } from "../components/Layout/UserGlobalState";
 import { AuthFormGlobalState } from "../components/Layout/AuthFormGlobalState";
 import { BookingStepGlobalState } from "../components/Layout/BookingStepGlobalState";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -13,6 +14,8 @@ const Sign = () => {
   const [randomError, setRandomError] = useState(null);
 
   const { setAuthForm } = AuthFormGlobalState();
+
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(null);
@@ -62,12 +65,24 @@ const Sign = () => {
           );
 
           if (responseToken.status === 200) {
-            Cookies.set("access-token", responseToken.data.access_token, {
+            Cookies.set("access-token", responseToken.data.token, {
               expires: 1,
             });
-            setCurrentUserData(responseToken.data.userData);
+            // Assuming `jwtToken` is your JWT token string
+            const jwtToken = responseToken.data.token; // Example token
+
+            // Split the token into parts
+            const parts = jwtToken.split(".");
+
+            // Decode the payload
+            const decodedPayload = atob(parts[1]);
+
+            // Parse the decoded payload
+            const payload = JSON.parse(decodedPayload);
+            setCurrentUserData(payload);
             setBookingStep("seatReserve");
             console.log("User registered successfully");
+            navigate("/");
           } else {
             throw new Error("Something went wrong");
           }
@@ -172,7 +187,7 @@ const Sign = () => {
   };
 
   return (
-    <div className="flex p-0 flex-col lg:flex-row h-screen mt-18">
+    <div className="flex p-0 flex-col lg:flex-row">
       {/* Left Column */}
       <div
         className="relative w-full lg:w-1/2 bg-cover bg-center"
@@ -232,9 +247,7 @@ const Sign = () => {
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required
             />
-            {lastNameError && (
-              <div className="errorText">{lastNameError}</div>
-            )}
+            {lastNameError && <div className="errorText">{lastNameError}</div>}
           </div>
           {/* Username */}
           <div>
@@ -254,9 +267,7 @@ const Sign = () => {
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required
             />
-            {usernameError && (
-              <div className="errorText">{usernameError}</div>
-            )}
+            {usernameError && <div className="errorText">{usernameError}</div>}
           </div>
           {/* Password */}
           <div>
@@ -276,9 +287,7 @@ const Sign = () => {
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required
             />
-            {passwordError && (
-              <div className="errorText">{passwordError}</div>
-            )}
+            {passwordError && <div className="errorText">{passwordError}</div>}
           </div>
           {/* Confirm Password */}
           <div>
@@ -359,7 +368,7 @@ const Sign = () => {
               htmlFor="gender"
               className="block text-sm font-medium text-gray-700"
             >
-              NIC Number
+              Gender
             </label>
             <select
               id="gender"
@@ -411,7 +420,7 @@ const Sign = () => {
           {randomError && <div className="errorText">{randomError}</div>}
           <button
             type="submit"
-            className="btn btn-primary w-full text-white font-semibold text-lg"
+            className="btn btn-primary text-white font-semibold text-lg w-full mx-auto block"
             disabled={!isFormValid()}
           >
             Sign Up
@@ -419,7 +428,6 @@ const Sign = () => {
         </form>
       </div>
     </div>
-
   );
 };
 
