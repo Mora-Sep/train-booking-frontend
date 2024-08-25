@@ -92,7 +92,7 @@ const Login = () => {
         setCurrentUserData(payload);
         setAuthForm("user");
         setBookingStep("seatReserve");
-        navigate("/");
+        navigate("/user-home");
       } else {
         alert("Something went wrong");
         throw new Error("Something went wrong");
