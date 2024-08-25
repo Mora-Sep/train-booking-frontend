@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ profilePic }) => {
   const { currentUserData } = UserGlobalState();
+  console.log(currentUserData);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -81,7 +82,13 @@ const Navbar = ({ profilePic }) => {
             {currentUserData?.username ? (
               <>
                 <li>
-                  <Link to="/profile">Profile</Link>
+                  {currentUserData?.role === "Admin" ? (
+                    <Link to="/admin">Admin Dashboard</Link>
+                  ) : currentUserData?.role === "Data Entry Operator" ? (
+                    <Link to="/deo">DEO Dashboard</Link>
+                  ) : (
+                    <Link to="/user-dashboard">My Profile</Link>
+                  )}
                 </li>
                 <li>
                   <Link to="/settings">Settings</Link>

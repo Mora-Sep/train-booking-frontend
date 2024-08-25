@@ -14,7 +14,7 @@ const Login = () => {
 
   const { setAuthForm } = AuthFormGlobalState();
   const { bookingStep, setBookingStep } = BookingStepGlobalState();
-  const { setCurrentUserData } = UserGlobalState();
+  const { currentUserData, setCurrentUserData } = UserGlobalState();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState(null);
@@ -90,6 +90,7 @@ const Login = () => {
         const payload = JSON.parse(decodedPayload);
 
         setCurrentUserData(payload);
+        setAuthForm("user");
         setBookingStep("seatReserve");
         navigate("/");
       } else {
