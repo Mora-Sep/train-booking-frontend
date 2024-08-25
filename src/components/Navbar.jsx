@@ -21,7 +21,7 @@ const Navbar = ({ profilePic }) => {
   };
 
   return (
-    <div className="navbar  bg-blue-50   h-18 rounded-md">
+    <div className="navbar bg-blue-50 h-18 rounded-md">
       <div className="flex-1">
         <Link to="/" className="">
           <img
@@ -33,33 +33,45 @@ const Navbar = ({ profilePic }) => {
         </Link>
       </div>
       <div className="flex-none">
-        <Link
-          to="/about"
-          className=" px-4 text-lg font-semibold hover:text-blue-700 text-black"
-        >
-          Book a Ticket
-        </Link>
-        <Link
-          to="/about"
-          className="pl-4 pr-20 text-lg hover:text-blue-700 font-semibold text-black"
-        >
-          Orders
-        </Link>
-        <div className="dropdown dropdown-end pr-10">
+        {currentUserData?.username ? (
+          <>
+            <Link
+              to="/search-train"
+              className="px-4 text-lg font-semibold hover:text-blue-700 text-black"
+            >
+              Search for a Train
+            </Link>
+            <Link
+              to="/bookings"
+              className="pl-4 pr-20 text-lg hover:text-blue-700 font-semibold text-black"
+            >
+              Bookings
+            </Link>
+          </>
+        ) : (
+          <>
+            <button
+              onClick={handleSignin}
+              className="px-4 text-lg font-semibold hover:text-blue-700 text-black"
+            >
+              Sign Up
+            </button>
+            <button
+              onClick={handleLogin}
+              className="pl-4 pr-20 text-lg hover:text-blue-700 font-semibold text-black"
+            >
+              Login
+            </button>
+          </>
+        )}
+        <div className="dropdown dropdown-end mt-1 pr-10">
           <div
             tabIndex={0}
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-28 rounded-full hover:scale-110">
-              <img
-                alt="User Profile"
-                src={
-                  currentUserData?.username
-                    ? profilePic
-                    : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                }
-              />
+              <img alt="User Profile" src={profilePic || "/Main/image.png"} />
             </div>
           </div>
           <ul
@@ -78,16 +90,7 @@ const Navbar = ({ profilePic }) => {
                   <button onClick={handleLogout}>Log out</button>
                 </li>
               </>
-            ) : (
-              <>
-                <li>
-                  <button onClick={handleSignin}>Sign in</button>
-                </li>
-                <li>
-                  <button onClick={handleLogin}>Log in</button>
-                </li>
-              </>
-            )}
+            ) : null}
           </ul>
         </div>
       </div>
