@@ -61,7 +61,7 @@ function AdminPortal() {
 
       if (response.status === 200) {
         alert("Login Successful");
-        Cookies.set("access-token", response.data.access_token, { expires: 1 });
+        Cookies.set("access-token", response.data.token, { expires: 1 });
         setCurrentUserData(response.data.userData);
         //setAdmin profile Details
       } else {

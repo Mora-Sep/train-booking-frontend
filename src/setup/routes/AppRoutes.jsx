@@ -4,7 +4,6 @@ import { Routes, Route } from "react-router-dom";
 import Home from "../../pages/Home";
 import Login from "../../pages/Login";
 import Sign from "../../pages/Sign";
-import Layout from "../../components/Layout/Layout";
 import UserHome from "../../pages/UserHome";
 
 import AdminRoutes from "./AdminRoutes";
@@ -16,6 +15,7 @@ import TrainSeatLayout from "../../components/seatLayout/TrainSeatLayout";
 
 const AppRoutes = () => {
   return (
+
     <Layout>
       <Routes>
         {/* Public routes */}

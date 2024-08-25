@@ -1,12 +1,15 @@
-import React from 'react';
-import DatePicker from 'react-datepicker';  // Import DatePicker directly, not from `{ }`
-import 'react-datepicker/dist/react-datepicker.css';
+import React from "react";
+import DatePicker from "react-datepicker"; // Import DatePicker directly, not from `{ }`
+import "react-datepicker/dist/react-datepicker.css";
 
 const Home = () => {
   return (
     <div className="flex p-0 flex-col lg:flex-row h-screen mt-18">
       {/* Left Column */}
-      <div className="relative w-full lg:w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('/Main/MainPhoto.svg')" }}>
+      <div
+        className="relative w-full lg:w-1/2 bg-cover bg-center"
+        style={{ backgroundImage: "url('/Main/MainPhoto.svg')" }}
+      >
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <h1 className="text-8xl lg:text-8xl font-bold text-white text-center">
             ON TRAIN
@@ -18,12 +21,19 @@ const Home = () => {
       {/* Right Column */}
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-gray-100 p-6 lg:p-12">
         <div className="max-w-lg w-full bg-white p-8 rounded-lg shadow-md">
-          <h2 className="text-2xl text-black font-bold mb-6 text-center">Search for a Train</h2>
+          <h2 className="text-2xl text-black font-bold mb-6 text-center">
+            Search for a Train
+          </h2>
           <form className="space-y-4">
             {/* Date and Time Picker */}
-            <div className='flex justify-centre space-x-1'>
-              <div >
-                <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date</label>
+            <div className="flex justify-centre space-x-1">
+              <div>
+                <label
+                  htmlFor="date"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Date
+                </label>
                 <DatePicker
                   id="date"
                   selected={new Date()}
@@ -32,17 +42,14 @@ const Home = () => {
                   dateFormat="MMMM d, yyyy"
                 />
               </div>
-              <div className=''>
-                <label htmlFor="time" className="block text-sm font-medium text-gray-700">Time</label>
-                <input
-                  type="time"
-                  id="time"
-                  className="mt-1 block w-44 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </div>
             </div>
             <div>
-              <label htmlFor="passengers" className="block text-sm font-medium text-gray-700">Passengers</label>
+              <label
+                htmlFor="passengers"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Passengers
+              </label>
               <input
                 type="number"
                 id="passengers"
