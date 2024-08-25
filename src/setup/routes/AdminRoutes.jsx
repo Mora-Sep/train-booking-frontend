@@ -8,9 +8,12 @@ import AdminPortal from "../../pages/AdminPortal";
 
 const AdminRoutes = () => (
   <Routes>
-    <Route path="login" element={<AdminPortal />} />
-    <Route path="user-details" element={<UserDetails />} />
-    <Route path="train-details" element={<TrainDetails />} />
+    <Route path="/" element={<AdminPortal />}>
+      <Route index element={<AdminDashboard />} />
+      <Route path="login" element={<AdminPortal />} />
+      <Route path="user-details" element={<UserDetails />} />
+      <Route path="train-details" element={<TrainDetails />} />
+    </Route>
   </Routes>
 );
 

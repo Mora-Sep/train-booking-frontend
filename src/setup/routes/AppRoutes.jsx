@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+// import Layout from '../../components/Layout/Layout';
 
 import Home from "../../pages/Home";
 import Login from "../../pages/Login";
@@ -15,23 +16,22 @@ import TrainSeatLayout from "../../components/seatLayout/TrainSeatLayout";
 
 const AppRoutes = () => {
   return (
+    // <Layout>
+    <Routes>
+      {/* Public routes */}
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/sign" element={<Sign />} />
+      <Route path="/user-home" element={<UserHome />} />
+      <Route path="/seat" element={<TrainSeatLayout />} />
 
-    <Layout>
-      <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/sign" element={<Sign />} />
-        <Route path="/user-home" element={<UserHome />} />
-        <Route path="/seat" element={<TrainSeatLayout />} />
 
-
-        {/* Nested routes */}
-        <Route path="/admin/*" element={<AdminRoutes />} />
-        <Route path="/user-dashboard/*" element={<UserRoutes />} />
-        <Route path="/deo/*" element={<DEORoutes />} />
-      </Routes>
-    </Layout>
+      {/* Nested routes */}
+      <Route path="/admin/*" element={<AdminRoutes />} />
+      <Route path="/user-dashboard/*" element={<UserRoutes />} />
+      <Route path="/deo/*" element={<DEORoutes />} />
+    </Routes>
+    // </Layout>
   );
 };
 

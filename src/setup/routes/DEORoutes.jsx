@@ -4,7 +4,9 @@ import DEOPortal from "../../pages/DEOPortal";
 
 const DEORoutes = () => (
   <Routes>
-    <Route path="/login" element={<DEOPortal />} />
+    <Route path="/" element={<DEOPortal />} />
+    <Route path="login" element={<DEOPortal />} />
+    {/* You can add more routes here if needed */}
   </Routes>
 );
 

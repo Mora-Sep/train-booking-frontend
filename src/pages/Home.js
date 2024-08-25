@@ -1,70 +1,53 @@
-import React from "react";
-import DatePicker from "react-datepicker"; // Import DatePicker directly, not from `{ }`
-import "react-datepicker/dist/react-datepicker.css";
+import React from 'react';
+import { Typewriter } from 'react-simple-typewriter';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
-    <div className="flex p-0 flex-col lg:flex-row h-screen mt-18">
-      {/* Left Column */}
-      <div
-        className="relative w-full lg:w-1/2 bg-cover bg-center"
-        style={{ backgroundImage: "url('/Main/MainPhoto.svg')" }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <h1 className="text-8xl lg:text-8xl font-bold text-white text-center">
-            ON TRAIN
-          </h1>
-          {/* <img src="/Main/logo-no-background.png" alt="logo" className="w-32 h-16 mt-4" /> */}
-        </div>
-      </div>
+    <div
+      className="flex flex-col items-center justify-center w-full h-screen bg-cover bg-center"
+      style={{ backgroundImage: 'url(/Image.jpeg)' }}
+    >
+      <div className="bg-black bg-opacity-50 w-full h-full flex flex-col items-center justify-center">
 
-      {/* Right Column */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-gray-100 p-6 lg:p-12">
-        <div className="max-w-lg w-full bg-white p-8 rounded-lg shadow-md">
-          <h2 className="text-2xl text-black font-bold mb-6 text-center">
-            Search for a Train
-          </h2>
-          <form className="space-y-4">
-            {/* Date and Time Picker */}
-            <div className="flex justify-centre space-x-1">
-              <div>
-                <label
-                  htmlFor="date"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Date
-                </label>
-                <DatePicker
-                  id="date"
-                  selected={new Date()}
-                  onChange={(date) => console.log(date)}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  dateFormat="MMMM d, yyyy"
-                />
-              </div>
-            </div>
-            <div>
-              <label
-                htmlFor="passengers"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Passengers
-              </label>
-              <input
-                type="number"
-                id="passengers"
-                min="1"
-                defaultValue="1"
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
-            </div>
-            <button
-              type="submit"
-              className="btn btn-primary w-full text-white font-semibold text-lg"
-            >
-              Find
-            </button>
-          </form>
+        <div className="text-center">
+          <h1 className="items-center -mt-52 text-blue-200 text-8xl font-bold">ON TRAIN</h1>
+        </div>
+
+        <div className="text-green-400 items-start -ml-80 -mt-28 mb-64 text-5xl font-semibold">
+          <Typewriter
+            words={['Book', 'Pay', 'Go']}
+            loop={0}
+            cursor
+            cursorStyle="|"
+            typeSpeed={70}
+            deleteSpeed={50}
+            delaySpeed={1000}
+          />
+        </div>
+
+        <img
+          src="/Main/logo-white.png"
+          alt="Logo"
+          className=" -mt-32 w-36 h-auto mb-4"
+        />
+
+        <div className='flex flex-col items-center absolute bottom-0'>
+          <div className="flex space-x-4 mb-24">
+            <Link to="/login">
+              <button className="px-4 py-2 bg-blue-600 text-xl text-white rounded hover:bg-blue-700">Sign In</button>
+            </Link>
+            <Link to="/sign">
+              <button className="px-4 py-2 bg-green-600 text-xl text-white rounded hover:bg-green-700">Register</button>
+            </Link>
+            <Link to="/user-home">
+              <button className="px-4 py-2 bg-gray-600 text-xl text-white rounded hover:bg-gray-700">Search for a Train</button>
+            </Link>
+          </div>
+
+          <div className="text-white text-xs mt-2">
+            Sign in as <Link to="/deo" className="underline text-lg">DEO</Link> or <Link to="/admin" className="underline text-lg">Admin</Link>
+          </div>
         </div>
       </div>
     </div>
