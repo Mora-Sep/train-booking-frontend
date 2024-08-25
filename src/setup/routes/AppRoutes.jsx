@@ -10,24 +10,28 @@ import AdminRoutes from "./AdminRoutes";
 import UserRoutes from "./UserRoutes";
 import DEORoutes from "./DEORoutes";
 
-import UserDashboard from "../../user/UserDashboard";
+import TrainSeatLayout from "../../components/seatLayout/TrainSeatLayout";
+
 
 const AppRoutes = () => {
   return (
-    <Routes>
-      {/* Public routes */}
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/sign" element={<Sign />} />
-      <Route path="/user-home" element={<UserHome />} />
 
-      <Route path="/user-dash" element={<UserDashboard />} />
+    <Layout>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign" element={<Sign />} />
+        <Route path="/user-home" element={<UserHome />} />
+        <Route path="/seat" element={<TrainSeatLayout />} />
 
-      {/* Nested routes */}
-      <Route path="/admin/*" element={<AdminRoutes />} />
-      <Route path="/user-dashboard/*" element={<UserRoutes />} />
-      <Route path="/deo/*" element={<DEORoutes />} />
-    </Routes>
+
+        {/* Nested routes */}
+        <Route path="/admin/*" element={<AdminRoutes />} />
+        <Route path="/user-dashboard/*" element={<UserRoutes />} />
+        <Route path="/deo/*" element={<DEORoutes />} />
+      </Routes>
+    </Layout>
   );
 };
 
