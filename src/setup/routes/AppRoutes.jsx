@@ -11,7 +11,8 @@ import AdminRoutes from "./AdminRoutes";
 import UserRoutes from "./UserRoutes";
 import DEORoutes from "./DEORoutes";
 
-import UserDashboard from "../../user/UserDashboard";
+import TrainSeatLayout from "../../components/seatLayout/TrainSeatLayout";
+
 
 const AppRoutes = () => {
   return (
@@ -22,8 +23,8 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/sign" element={<Sign />} />
         <Route path="/user-home" element={<UserHome />} />
+        <Route path="/seat" element={<TrainSeatLayout />} />
 
-        <Route path="/user-dash" element={<UserDashboard />} />
 
         {/* Nested routes */}
         <Route path="/admin/*" element={<AdminRoutes />} />
