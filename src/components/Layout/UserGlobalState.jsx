@@ -11,6 +11,8 @@ export function UserGlobalStateProvider({ children }) {
     isDataEntryOperator: null,
     bookingsCount: null,
     category: null,
+    nic: null,
+    email: null,
   });
 
   return (

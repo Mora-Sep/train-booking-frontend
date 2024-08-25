@@ -1,14 +1,17 @@
-import React from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
-import AppRoutes from './setup/routes/routes';
-import Navbar from './components/Navbar';
+import React from "react";
+import { BrowserRouter as Router, Link } from "react-router-dom";
+import AppRoutes from "./setup/routes/AppRoutes";
+import Navbar from "./components/Navbar";
+import Layout from "./components/Layout/Layout";
 
 function App() {
   return (
     <Router>
       <div>
-        <Navbar />
-        <AppRoutes />
+        <Layout>
+          <Navbar />
+          <AppRoutes />
+        </Layout>
       </div>
     </Router>
   );
