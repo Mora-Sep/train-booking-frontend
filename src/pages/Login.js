@@ -75,7 +75,7 @@ const Login = () => {
       const response = await axios.post(`${BaseURL}/users/login`, postData);
 
       if (response.status === 200) {
-        Cookies.set("access-token", response.data.token, { expires: 1 });
+        Cookies.set("access-token", response.data.token, { expires: 1 / 24 });
 
         // Assuming `jwtToken` is your JWT token string
         const jwtToken = response.data.token; // Example token
