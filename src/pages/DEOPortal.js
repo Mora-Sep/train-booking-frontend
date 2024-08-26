@@ -62,7 +62,7 @@ function DEOPortal() {
       const response = await axios.post(`${BaseURL}/deo/auth`, postData);
 
       if (response.status === 200) {
-        Cookies.set("access-token", response.data.token, { expires: 1 });
+        Cookies.set("access-token", response.data.token, { expires: 1 / 24 });
         setAuthForm("deo");
         // Assuming `jwtToken` is your JWT token string
         const jwtToken = response.data.token; // Example token
