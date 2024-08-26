@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ profilePic }) => {
   const { currentUserData } = UserGlobalState();
-  console.log(currentUserData);
   const navigate = useNavigate();
 
   const handleLogout = () => {
