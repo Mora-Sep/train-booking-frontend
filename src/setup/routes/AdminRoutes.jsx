@@ -9,6 +9,7 @@ import DeleteSection from "../../admin/DeleteSection";
 const AdminRoutes = () => (
   <Routes>
     <Route path="/" element={<AdminDashboard />}>
+      <Route index element={<UserDetails />} />
       <Route path="user-details" element={<UserDetails />} />
       <Route path="activate-trip" element={<ActDctTrip />} />
       <Route path="delete-section" element={<DeleteSection />} />

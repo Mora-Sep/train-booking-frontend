@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-const AdminDashboard = () => {
+function DeoDashboard() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -10,13 +10,12 @@ const AdminDashboard = () => {
     navigate("/admin-portal");
     window.location.reload();
   };
-
   return (
     <div className="flex">
       {/* Sidebar */}
       <div className="w-1/5 bg-gray-800 text-white flex flex-col justify-between">
         <div>
-          <h2 className="text-2xl font-bold p-4">Admin Dashboard</h2>
+          <h2 className="text-2xl font-bold p-4">DEO Dashboard</h2>
           <ul className="space-y-2 p-4">
             <li>
               <NavLink
@@ -72,6 +71,6 @@ const AdminDashboard = () => {
       </div>
     </div>
   );
-};
+}
 
-export default AdminDashboard;
+export default DeoDashboard;
