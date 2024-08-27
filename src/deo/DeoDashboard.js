@@ -31,26 +31,38 @@ function DeoDashboard() {
             </li>
             <li>
               <NavLink
-                to="activate-trip"
+                to="schedule-trip"
                 className={({ isActive }) =>
                   isActive
                     ? "block p-2 hover:bg-gray-700 rounded bg-gray-700"
                     : "block p-2 hover:bg-gray-700 rounded"
                 }
               >
-                Active/Deactivate Trips
+                Schedule A New Trip
               </NavLink>
             </li>
             <li>
               <NavLink
-                to="delete-section"
+                to="add-section"
                 className={({ isActive }) =>
                   isActive
                     ? "block p-2 hover:bg-gray-700 rounded bg-gray-700"
                     : "block p-2 hover:bg-gray-700 rounded"
                 }
               >
-                Delete Section
+                Add Section
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="update-delay"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block p-2 hover:bg-gray-700 rounded bg-gray-700"
+                    : "block p-2 hover:bg-gray-700 rounded"
+                }
+              >
+                Update Delay
               </NavLink>
             </li>
             <div className="p-4">
