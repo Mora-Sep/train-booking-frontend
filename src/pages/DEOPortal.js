@@ -92,17 +92,17 @@ function DEOPortal() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex bg-gradient-to-tl from-black via-blue-900 to-black justify-center items-center h-screen">
       <form
         onSubmit={handleSubmitClick}
-        className="w-full max-w-sm bg-white p-8 shadow-lg rounded"
+        className="w-full rounded-lg text-black max-w-sm bg-white p-8 shadow-lg "
       >
-        <h2 className="text-2xl font-bold mb-6">Data Entry Operator Login</h2>
+        <h2 className="text-2xl font-bold text-gray-700 text-center mb-6">Data Entry Operator Login</h2>
 
         <div className="mb-4">
           <label
             htmlFor="username"
-            className="block text-gray-700 font-bold mb-2"
+            className="block text-black font-bold mb-2"
           >
             Username
           </label>
@@ -122,7 +122,7 @@ function DEOPortal() {
         <div className="mb-6">
           <label
             htmlFor="password"
-            className="block text-gray-700 font-bold mb-2"
+            className="block text-black font-bold mb-2"
           >
             Password
           </label>

@@ -1,24 +1,24 @@
-// import Header from "./Header";
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { UserGlobalStateProvider } from "./UserGlobalState";
 import { BookingStepGlobalStateProvider } from "./BookingStepGlobalState";
-// import { BookingProcessGlobalStateProvider } from "./BookingProcessGlobalState";
 import { UserMenuGlobalStateProvider } from "./UserMenuGlobalState";
 import { AuthFormGlobalStateProvider } from "./AuthFormGlobalState";
 import Footer from "./../Footer";
 
 export default function Layout({ children }) {
+  const location = useLocation();
+  const showFooter = location.pathname !== '/';
+
   return (
     <>
       <AuthFormGlobalStateProvider>
         <UserGlobalStateProvider>
           <UserMenuGlobalStateProvider>
-            {/* <BookingProcessGlobalStateProvider> */}
             <BookingStepGlobalStateProvider>
-              {/* <Header /> */}
               <div>{children}</div>
-              <Footer />
+              {showFooter && <Footer />}
             </BookingStepGlobalStateProvider>
-            {/* </BookingProcessGlobalStateProvider> */}
           </UserMenuGlobalStateProvider>
         </UserGlobalStateProvider>
       </AuthFormGlobalStateProvider>

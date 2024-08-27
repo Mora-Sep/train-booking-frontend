@@ -92,12 +92,12 @@ function AdminPortal() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex bg-gradient-to-tl from-black via-blue-900 to-black justify-center items-center h-screen">
       <form
         onSubmit={handleSubmitClick}
-        className="w-full max-w-sm bg-white p-8 shadow-lg rounded"
+        className="w-full text-black max-w-sm bg-white p-8 shadow-lg rounded"
       >
-        <h2 className="text-2xl font-bold mb-6">Admin Login</h2>
+        <h2 className="text-2xl text-gray-700 text-center font-bold mb-6">Admin Login</h2>
 
         <div className="mb-4">
           <label

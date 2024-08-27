@@ -21,7 +21,7 @@ const Navbar = ({ profilePic }) => {
   };
 
   return (
-    <div className="navbar bg-blue-50 h-18 rounded-md">
+    <div className="navbar bg-transparent h-18 rounded-md">
       <div className="flex-1">
         <Link to="/" className="">
           <img
