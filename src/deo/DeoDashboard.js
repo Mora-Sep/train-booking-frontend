@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-const AdminDashboard = () => {
+function DeoDashboard() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -10,13 +10,12 @@ const AdminDashboard = () => {
     navigate("/admin-portal");
     window.location.reload();
   };
-
   return (
     <div className="flex">
       {/* Sidebar */}
       <div className="w-1/5 bg-gray-800 text-white flex flex-col justify-between">
         <div>
-          <h2 className="text-2xl font-bold p-4">Admin Dashboard</h2>
+          <h2 className="text-2xl font-bold p-4">DEO Dashboard</h2>
           <ul className="space-y-2 p-4">
             <li>
               <NavLink
@@ -32,26 +31,38 @@ const AdminDashboard = () => {
             </li>
             <li>
               <NavLink
-                to="activate-trip"
+                to="schedule-trip"
                 className={({ isActive }) =>
                   isActive
                     ? "block p-2 hover:bg-gray-700 rounded bg-gray-700"
                     : "block p-2 hover:bg-gray-700 rounded"
                 }
               >
-                Active/Deactivate Trips
+                Schedule A New Trip
               </NavLink>
             </li>
             <li>
               <NavLink
-                to="delete-section"
+                to="add-section"
                 className={({ isActive }) =>
                   isActive
                     ? "block p-2 hover:bg-gray-700 rounded bg-gray-700"
                     : "block p-2 hover:bg-gray-700 rounded"
                 }
               >
-                Delete Section
+                Add Section
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="update-delay"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block p-2 hover:bg-gray-700 rounded bg-gray-700"
+                    : "block p-2 hover:bg-gray-700 rounded"
+                }
+              >
+                Update Delay
               </NavLink>
             </li>
             <div className="p-4">
@@ -72,6 +83,6 @@ const AdminDashboard = () => {
       </div>
     </div>
   );
-};
+}
 
-export default AdminDashboard;
+export default DeoDashboard;
