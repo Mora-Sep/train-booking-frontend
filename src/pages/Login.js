@@ -127,7 +127,7 @@ const Login = () => {
           <h2 className="text-2xl text-black font-bold mb-6 text-center">
             Login to Your Account
           </h2>
-          <form className="space-y-4" onSubmit={handleSubmitClick}>
+          <form className="space-y-4 text-black" onSubmit={handleSubmitClick}>
             <div>
               <label
                 htmlFor="email"

@@ -206,7 +206,7 @@ const Sign = () => {
         <h2 className="text-2xl text-black font-bold mb-6 text-center">
           Create Your Account
         </h2>
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4 text-black" onSubmit={handleSubmit}>
           {/* First Name */}
           <div>
             <label

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie'
 
 const OrderHistory = () => {
     const [tickets, setTickets] = useState([]);
     const [expandedRows, setExpandedRows] = useState([]);
 
     const baseURL = process.env.REACT_APP_BASE_URL;
-    const token = process.env.REACT_APP_AUTH_TOKEN;
+
+    const token = Cookies.get("access-token");
 
     // Fetch tickets data from API
     useEffect(() => {

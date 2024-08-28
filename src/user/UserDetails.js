@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const UserDetails = () => {
     const [userData, setUserData] = useState(null);
@@ -11,7 +12,7 @@ const UserDetails = () => {
 
     // Define the base URL and token
     const baseURL = process.env.REACT_APP_BASE_URL;
-    const token = process.env.REACT_APP_AUTH_TOKEN;
+    const token = Cookies.get("access-token");
 
     // Fetch user details on component mount
     useEffect(() => {
