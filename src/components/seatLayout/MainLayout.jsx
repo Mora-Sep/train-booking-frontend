@@ -3,56 +3,36 @@ import FirstClassSeatLayout from './FirstClassSeatLayout';
 import SecondClassSeatLayout from './SecondClassSeatLayout';
 import ThirdClassSeatLayout from './ThirdClassSeatLayout';
 
-// Dummy seat data
-const seatData = {
-    1: [ // 1st Class
-        { cart: 1, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 2, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 3, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-    ],
-    2: [ // 2nd Class
-        { cart: 1, seats: Array.from({ length: 50 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 2, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 3, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-    ],
-    3: [ // 3rd Class
-        { cart: 1, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 2, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 3, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 4, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 5, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-    ],
-};
-
-// Example of booked seats
-const bookedSeats = [
-    { class: 1, cart: 1, number: 5 },
-    { class: 2, cart: 2, number: 10 },
-    { class: 3, cart: 3, number: 15 },
-];
-
+// Dummy API URL
+const API_BASE_URL = 'https://api.example.com/train-seats';
 const TrainName = 'Udarata Manike';
 
 const MainLayout = () => {
     const [currentClass, setCurrentClass] = useState(1);
     const [currentCart, setCurrentCart] = useState(1);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [seatData, setSeatData] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     // Prices for each class
     const classPrices = { 1: 150, 2: 100, 3: 50 };
 
-    // Load booked seats into state
+    // Fetch seat data from the server
     useEffect(() => {
-        const updatedSeats = { ...seatData };
-        bookedSeats.forEach(({ class: cls, cart, number }) => {
-            const cartIndex = updatedSeats[cls].findIndex(c => c.cart === cart);
-            if (cartIndex !== -1) {
-                const seatIndex = updatedSeats[cls][cartIndex].seats.findIndex(s => s.number === number);
-                if (seatIndex !== -1) {
-                    updatedSeats[cls][cartIndex].seats[seatIndex].status = 1; // 1 for booked
-                }
+        const fetchSeatData = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch(`${API_BASE_URL}/train/${TrainName}`);
+                const data = await response.json();
+                setSeatData(data);
+            } catch (err) {
+                setError('Failed to load seat data.');
+            } finally {
+                setLoading(false);
             }
-        });
+        };
+        fetchSeatData();
     }, []);
 
     // Handle seat selection
@@ -76,6 +56,7 @@ const MainLayout = () => {
     const handlePrevCart = () => setCurrentCart(prevCart => prevCart - 1);
 
     const getSeatLayout = () => {
+        if (!seatData[currentClass]) return null;
         const data = seatData[currentClass];
         switch (currentClass) {
             case 1:
@@ -116,10 +97,41 @@ const MainLayout = () => {
         }
     };
 
+    // Handle booking
+    const handleBooking = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`${API_BASE_URL}/book-seats`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ selectedSeats }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                alert('Booking successful!');
+                // Refetch seat data to update booked seats
+                setSelectedSeats([]);
+                const updatedData = await fetch(`${API_BASE_URL}/train/${TrainName}`).then(res => res.json());
+                setSeatData(updatedData);
+            } else {
+                alert('Booking failed. Please try again.');
+            }
+        } catch (err) {
+            setError('Booking error. Try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Calculate total price
     const totalPrice = selectedSeats.reduce((total, seat) => {
         return total + classPrices[seat.class];
     }, 0);
+
+    if (loading) return <div>Loading seats...</div>;
+    if (error) return <div>{error}</div>;
 
     return (
         <div className="flex">
@@ -181,7 +193,10 @@ const MainLayout = () => {
                     </table>
                     <div className="mt-4">
                         <p className="text-xl text-red-600 font-bold">Total: LKR {totalPrice}</p>
-                        <button className="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded">
+                        <button
+                            className="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded"
+                            onClick={handleBooking}
+                        >
                             Buy Selected Seats
                         </button>
                     </div>

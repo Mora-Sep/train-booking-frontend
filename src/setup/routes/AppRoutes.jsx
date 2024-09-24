@@ -7,7 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Home from "../../pages/Home";
 import Login from "../../pages/Login";
 import Sign from "../../pages/Sign";
-import UserHome from "../../pages/UserHome";
+import Booking from "../../pages/Booking";
 
 import AdminRoutes from "./AdminRoutes";
 import UserRoutes from "./UserRoutes";
@@ -26,7 +26,7 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/sign" element={<Sign />} />
-      <Route path="/user-home" element={<UserHome />} />
+      <Route path="/booking" element={<Booking />} />
       <Route path="/admin-portal" element={<AdminPortal />} />
       <Route path="/deo-portal" element={<DEOPortal />} />
       <Route path="/seat" element={<TrainSeatLayout />} />
