@@ -12,6 +12,9 @@ function Payment() {
   const baseURL = process.env.REACT_APP_BACKEND_API_URL;
 
   const handleClick = async () => {
+    // need to send the booking ref id to the backend when implementing the real thing
+    //const response = await axios.get(`${baseURL}/booking/get-checkout-session?bookingRefID=${bookingRefID}`);
+
     const response = await axios.get(`${baseURL}/booking/get-checkout-session`);
 
     // Redirect to Stripe Checkout
