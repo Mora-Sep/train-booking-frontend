@@ -9,6 +9,7 @@ const Navbar = ({ profilePic }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    navigate("/login");
     window.location.reload();
   };
 
@@ -64,21 +65,21 @@ const Navbar = ({ profilePic }) => {
             </button>
           </>
         )}
-        <div className="dropdown dropdown-end mt-1 pr-10">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-28 rounded-full hover:scale-110">
-              <img alt="User Profile" src={profilePic || "/Main/image.png"} />
+        {currentUserData?.username ? (
+          <div className="dropdown dropdown-end mt-1 pr-10">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-28 rounded-full hover:scale-110">
+                <img alt="User Profile" src={profilePic || "/Main/image.png"} />
+              </div>
             </div>
-          </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-blue-100 text-black rounded-box z-[1] mt-3 w-52 p-2 shadow"
-          >
-            {currentUserData?.username ? (
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-blue-100 text-black rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            >
               <>
                 <li>
                   {currentUserData?.role === "Admin" ? (
@@ -96,9 +97,9 @@ const Navbar = ({ profilePic }) => {
                   <button onClick={handleLogout}>Log out</button>
                 </li>
               </>
-            ) : null}
-          </ul>
-        </div>
+            </ul>
+          </div>
+        ) : null}
       </div>
     </div>
   );
