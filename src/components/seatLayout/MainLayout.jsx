@@ -5,17 +5,17 @@ import ThirdClassSeatLayout from './ThirdClassSeatLayout';
 
 // Dummy seat data
 const seatData = {
-    1: [ // 1st Class
+    1: [
         { cart: 1, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
         { cart: 2, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
         { cart: 3, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
     ],
-    2: [ // 2nd Class
+    2: [
         { cart: 1, seats: Array.from({ length: 50 }, (_, index) => ({ number: index + 1, status: 0 })) },
         { cart: 2, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
         { cart: 3, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
     ],
-    3: [ // 3rd Class
+    3: [
         { cart: 1, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
         { cart: 2, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
         { cart: 3, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
@@ -124,6 +124,7 @@ const MainLayout = () => {
     return (
         <div className="flex">
             <div className="flex flex-col w-4/5 p-6 bg-white rounded-lg shadow-lg">
+
                 <div className='text-blue-800 text-3xl font-serif font-bold text-center pb-5'>{TrainName}</div>
                 <div className="flex flex-row items-center text-black font-semibold mb-4">
                     <button
