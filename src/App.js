@@ -1,12 +1,12 @@
-import React from 'react';
-import { BrowserRouter as Router, useLocation } from 'react-router-dom';
-import AppRoutes from './setup/routes/AppRoutes';
-import Navbar from './components/Navbar';
-import Layout from './components/Layout/Layout';
+import React from "react";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
+import AppRoutes from "./setup/routes/AppRoutes";
+import Navbar from "./components/Navbar";
+import Layout from "./components/Layout/Layout";
 
 const AppWrapper = () => {
   const location = useLocation();
-  const showNavbar = location.pathname !== '/';
+  const showNavbar = location.pathname !== "/";
 
   return (
     <>

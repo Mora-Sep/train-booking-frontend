@@ -2,4 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@import '~react-datepicker/dist/react-datepicker.css';
+@import "~react-datepicker/dist/react-datepicker.css";
+
+/* Hide scrollbar for WebKit-based browsers */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}

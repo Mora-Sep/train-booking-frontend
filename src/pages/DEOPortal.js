@@ -82,11 +82,8 @@ function DEOPortal() {
         throw new Error("Something went wrong");
       }
     } catch (error) {
-      alert(error);
-      if (error.response.status) {
-        if (error.response.status === 401) {
-          setRandomError("Invalid username or password");
-        }
+      if (error.status === 401) {
+        alert("Invalid username or password");
       }
     }
   }
@@ -97,13 +94,12 @@ function DEOPortal() {
         onSubmit={handleSubmitClick}
         className="w-full rounded-lg text-black max-w-sm bg-white p-8 shadow-lg "
       >
-        <h2 className="text-2xl font-bold text-gray-700 text-center mb-6">Data Entry Operator Login</h2>
+        <h2 className="text-2xl font-bold text-gray-700 text-center mb-6">
+          Data Entry Operator Login
+        </h2>
 
         <div className="mb-4">
-          <label
-            htmlFor="username"
-            className="block text-black font-bold mb-2"
-          >
+          <label htmlFor="username" className="block text-black font-bold mb-2">
             Username
           </label>
           <input
@@ -120,10 +116,7 @@ function DEOPortal() {
         </div>
 
         <div className="mb-6">
-          <label
-            htmlFor="password"
-            className="block text-black font-bold mb-2"
-          >
+          <label htmlFor="password" className="block text-black font-bold mb-2">
             Password
           </label>
           <input

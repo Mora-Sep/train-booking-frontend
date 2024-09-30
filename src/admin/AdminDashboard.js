@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { FaBars, FaUser, FaTrain, FaTrash } from "react-icons/fa"; // Importing icons
+import { FaBookOpen } from "react-icons/fa6";
 
 const AdminDashboard = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -11,63 +14,111 @@ const AdminDashboard = () => {
     window.location.reload();
   };
 
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
-    <div className="flex">
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <div className="w-1/5 bg-gray-800 text-white flex flex-col justify-between">
-        <div>
-          <h2 className="text-2xl font-bold p-4">Admin Dashboard</h2>
-          <ul className="space-y-2 p-4">
-            <li>
+      <div
+        className={`bg-gray-800 text-white flex flex-col justify-between shadow-lg transition-all duration-300 ${
+          isCollapsed ? "w-20" : "w-64"
+        }`}
+      >
+        <div className="flex flex-col">
+          <button
+            className="text-2xl p-4 focus:outline-none"
+            onClick={toggleSidebar}
+          >
+            <FaBars />
+          </button>
+
+          {!isCollapsed && (
+            <h2 className="text-2xl font-bold p-6 text-center border-b border-gray-700">
+              Admin Dashboard
+            </h2>
+          )}
+
+          <ul
+            className={`space-y-4 p-4 w-full ${
+              isCollapsed ? "items-center" : ""
+            }`}
+          >
+            <li className="w-full">
               <NavLink
                 to="user-details"
                 className={({ isActive }) =>
                   isActive
-                    ? "block p-2 hover:bg-gray-700 rounded bg-gray-700"
-                    : "block p-2 hover:bg-gray-700 rounded"
+                    ? "flex items-center p-3 hover:bg-gray-700 rounded-lg bg-gray-700 transition duration-300"
+                    : "flex items-center p-3 hover:bg-gray-700 rounded-lg transition duration-300"
                 }
               >
-                User Details
+                <FaUser />
+                {!isCollapsed && <span className="ml-4">User Details</span>}
               </NavLink>
             </li>
-            <li>
+            <li className="w-full">
               <NavLink
                 to="activate-trip"
                 className={({ isActive }) =>
                   isActive
-                    ? "block p-2 hover:bg-gray-700 rounded bg-gray-700"
-                    : "block p-2 hover:bg-gray-700 rounded"
+                    ? "flex items-center p-3 hover:bg-gray-700 rounded-lg bg-gray-700 transition duration-300"
+                    : "flex items-center p-3 hover:bg-gray-700 rounded-lg transition duration-300"
                 }
               >
-                Active/Deactivate Trips
+                <FaTrain />
+                {!isCollapsed && (
+                  <span className="ml-4">Active/Deactivate Trips</span>
+                )}
               </NavLink>
             </li>
-            <li>
+            <li className="w-full">
+              <NavLink
+                to="reports"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center p-3 hover:bg-gray-700 rounded-lg bg-gray-700 transition duration-300"
+                    : "flex items-center p-3 hover:bg-gray-700 rounded-lg transition duration-300"
+                }
+              >
+                <FaBookOpen />
+                {!isCollapsed && <span className="ml-4">Reports</span>}
+              </NavLink>
+            </li>
+            <li className="w-full">
               <NavLink
                 to="delete-section"
                 className={({ isActive }) =>
                   isActive
-                    ? "block p-2 hover:bg-gray-700 rounded bg-gray-700"
-                    : "block p-2 hover:bg-gray-700 rounded"
+                    ? "flex items-center p-3 hover:bg-gray-700 rounded-lg bg-gray-700 transition duration-300"
+                    : "flex items-center p-3 hover:bg-gray-700 rounded-lg transition duration-300"
                 }
               >
-                Delete Section
+                <FaTrash />
+                {!isCollapsed && <span className="ml-4">Delete Section</span>}
               </NavLink>
             </li>
-            <div className="p-4">
-              <button
-                onClick={handleLogout}
-                className="bg-red-600 w-full p-2 rounded"
-              >
-                Logout
-              </button>
-            </div>
           </ul>
+        </div>
+
+        {/* Conditionally hide the logout button when collapsed */}
+        <div
+          className={`p-6 transition-all duration-300 ${
+            isCollapsed ? "hidden" : "w-full"
+          }`}
+        >
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 hover:bg-red-500 text-white font-semibold w-full p-3 rounded-lg transition duration-300 shadow-lg"
+          >
+            Logout
+          </button>
         </div>
       </div>
 
       {/* Main Content Area */}
-      <div className="w-full p-6">
+      <div className="flex-1 p-8 overflow-y-auto bg-gray-100 hide-scrollbar">
         <Outlet />
       </div>
     </div>
