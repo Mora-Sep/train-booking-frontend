@@ -5,6 +5,7 @@ import { BookingStepGlobalState } from "../components/Layout/BookingStepGlobalSt
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const Sign = () => {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -52,7 +53,9 @@ const Sign = () => {
     try {
       const response = await axios.post(`${BaseURL}/users/register`, postData);
       console.log(response);
-      alert("User registered successfully");
+      toast.success("User registered successfully", {
+        className: "custom-toast",
+      });
       if (response.status === 201) {
         const postDataToken = {
           username: username,
@@ -87,8 +90,11 @@ const Sign = () => {
             throw new Error("Something went wrong");
           }
         } catch (error) {
-          if (error.responseToken.status) {
-            if (error.responseToken.status === 401) {
+          if (error.status) {
+            if (error.status === 401) {
+              toast.error("Invalid username or password", {
+                className: "custom-toast",
+              });
               setRandomError("Invalid username or password");
             }
           }
@@ -96,7 +102,9 @@ const Sign = () => {
       }
     } catch (err) {
       console.log(err);
-      alert(err.response.data.error);
+      toast.error("Registration failed, try again later!", {
+        className: "custom-toast",
+      });
     }
   };
 

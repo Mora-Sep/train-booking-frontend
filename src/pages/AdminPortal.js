@@ -5,6 +5,7 @@ import { AuthFormGlobalState } from "../components/Layout/AuthFormGlobalState";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function AdminPortal() {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -62,6 +63,7 @@ function AdminPortal() {
       const response = await axios.post(`${BaseURL}/admin/auth`, postData);
 
       if (response.status === 200) {
+        toast.success("Login successful", { className: "custom-toast" });
         Cookies.set("access-token", response.data.token, { expires: 1 / 24 });
         setAuthForm("admin");
         // Assuming `jwtToken` is your JWT token string
@@ -83,7 +85,9 @@ function AdminPortal() {
       }
     } catch (error) {
       if (error.status === 401) {
-        alert("Invalid username or password");
+        toast.error("Invalid username or password", {
+          className: "custom-toast",
+        });
       }
     }
   }

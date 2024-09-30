@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "react-datepicker/dist/react-datepicker.css";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -75,6 +76,9 @@ const Login = () => {
       const response = await axios.post(`${BaseURL}/users/login`, postData);
 
       if (response.status === 200) {
+        toast.success("Login Successful", {
+          className: "custom-toast",
+        });
         Cookies.set("access-token", response.data.token, { expires: 1 / 24 });
 
         // Assuming `jwtToken` is your JWT token string
@@ -88,19 +92,22 @@ const Login = () => {
 
         // Parse the decoded payload
         const payload = JSON.parse(decodedPayload);
-        console.log(bookingStep, currentUserData);
 
         setCurrentUserData(payload);
         setAuthForm("user");
         setBookingStep("seatReserve");
         navigate("/booking");
       } else {
-        alert("Something went wrong");
-        throw new Error("Something went wrong");
+        toast.error("Something went wrong", {
+          className: "custom-toast",
+        });
+        navigate("/");
       }
     } catch (error) {
       if (error.response.status) {
-        alert("Invalid username or password");
+        toast.error("Invalid username or password", {
+          className: "custom-toast",
+        });
         if (error.response.status === 401 || 400) {
           setRandomError("Invalid username or password");
         }

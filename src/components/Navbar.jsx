@@ -87,7 +87,7 @@ const Navbar = ({ profilePic }) => {
                   ) : currentUserData?.role === "Data Entry Operator" ? (
                     <Link to="/deo">DEO Dashboard</Link>
                   ) : (
-                    <Link to="/user-dashboard">My Profile</Link>
+                    <Link to="/user/user-details">My Profile</Link>
                   )}
                 </li>
                 <li>
