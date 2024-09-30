@@ -2,6 +2,7 @@ import React from 'react';
 import { UserGlobalState } from '../Layout/UserGlobalState'; // Import the global state
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { AiOutlineClose } from 'react-icons/ai'; // Importing close icon
 
 const PopoutCheckout = ({ selectedSeats, totalPrice, refID, onClose }) => {
     const { currentUserData } = UserGlobalState(); // Access the global user state
@@ -28,48 +29,63 @@ const PopoutCheckout = ({ selectedSeats, totalPrice, refID, onClose }) => {
     };
 
     return (
-        <div className="fixed right-0 top-0 w-2/5 h-full bg-white shadow-lg z-50 p-6 overflow-y-auto border-l-4 border-blue-500">
-            <h2 className="text-xl font-bold text-blue-900 mb-4">Checkout</h2>
-            <button onClick={onClose} className="text-red-500 mb-4">Close</button>
-            <h3 className="text-lg font-semibold text-blue-700 mb-2">Selected Seats</h3>
-            <table className="w-full text-blue-600 mb-4">
-                <thead>
-                    <tr>
-                        <th className="pr-4 text-left">Class</th>
-                        <th className="pr-4 text-left">Cart</th>
-                        <th className="pr-4 text-left">Seat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {selectedSeats.map((seat, index) => (
-                        <tr key={index}>
-                            <td>{seat.class}</td>
-                            <td>{seat.cart}</td>
-                            <td>{seat.number}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <h3 className="text-lg font-semibold text-blue-700">Total Price: LKR {totalPrice}</h3>
+        <div className="fixed right-0 top-0 w-2/5 h-full bg-white shadow-lg z-50 border-l-4 border-blue-500 overflow-y-auto">
+            <div className="p-6  text-black">
+                {/* Close button */}
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl text-center font-bold">Checkout</h2>
+                    <button onClick={onClose} className="text-black hover:text-red-500">
+                        <AiOutlineClose size={32} />
+                    </button>
+                </div>
 
-            {/* Conditionally render buttons based on login status */}
-            {currentUserData.username ? (
-                // Show "Pay with Card" if the user is logged in
-                <button
-                    className="w-full mt-4 bg-blue-600 text-white py-2 rounded hover:bg-blue-500 transition-colors"
-                    onClick={handlePayment} // Call the handlePayment function on click
-                >
-                    Pay with Card
-                </button>
-            ) : (
-                // Show "Login" button if the user is not logged in
-                <button
-                    className="w-full mt-4 bg-gray-600 text-white py-2 rounded hover:bg-gray-500 transition-colors"
-                    onClick={() => window.location.href = '/login'}
-                >
-                    Login to Proceed
-                </button>
-            )}
+
+
+                {/* Seats table */}
+                <div className="bg-white p-4 text-blue-900 rounded-md shadow-md mb-6">
+                    <h3 className="text-lg font-semibold mb-4">Selected Seats</h3>
+                    <table className="w-full">
+                        <thead>
+                            <tr className="text-left border-b-2 border-blue-500">
+                                <th className="py-2">Class</th>
+                                <th className="py-2">Cart</th>
+                                <th className="py-2">Seat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {selectedSeats.map((seat, index) => (
+                                <tr key={index} className="border-b">
+                                    <td className="py-2">{seat.class}</td>
+                                    <td className="py-2">{seat.cart}</td>
+                                    <td className="py-2">{seat.number}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* Total price */}
+                <div className="bg-white p-4 text-blue-900 rounded-md shadow-md mb-6">
+                    <h3 className="text-lg font-semibold">Total Price: LKR {totalPrice}</h3>
+                </div>
+
+                {/* Payment button */}
+                {currentUserData.username ? (
+                    <button
+                        className="w-full bg-blue-600 text-white py-2 rounded-md font-bold hover:bg-blue-500 transition-colors"
+                        onClick={handlePayment}
+                    >
+                        Pay with Card
+                    </button>
+                ) : (
+                    <button
+                        className="w-full bg-gray-600 text-white py-2 rounded-md hover:bg-gray-500 transition-colors"
+                        onClick={() => window.location.href = '/login'}
+                    >
+                        Login to Proceed
+                    </button>
+                )}
+            </div>
         </div>
     );
 };
