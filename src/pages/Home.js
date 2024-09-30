@@ -52,7 +52,7 @@ const Home = () => {
                 </Link>
               </>
             )}
-            <Link to="/user-home">
+            <Link to="/booking">
               <button className="px-4 py-3 shadow-lg shadow-black rounded-xl  bg-gray-600 text-xl text-white  hover:bg-gray-700">
                 Search for a Train
               </button>

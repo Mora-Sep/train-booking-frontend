@@ -88,11 +88,12 @@ const Login = () => {
 
         // Parse the decoded payload
         const payload = JSON.parse(decodedPayload);
+        console.log(bookingStep, currentUserData);
 
         setCurrentUserData(payload);
         setAuthForm("user");
         setBookingStep("seatReserve");
-        navigate("/user-home");
+        navigate("/booking");
       } else {
         alert("Something went wrong");
         throw new Error("Something went wrong");

@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import MainSeatLayout from '../components/seatLayout/MainLayout'; // Import your MainSeatLayout component
 
-const UserHome = () => {
+const Booking = () => {
     const [stations, setStations] = useState([]);
     const [fromStation, setFromStation] = useState("");
     const [toStation, setToStation] = useState("");
@@ -68,7 +68,7 @@ const UserHome = () => {
     return (
         <div className="flex h-screen bg-gray-100">
             {/* Left Section: Search Form */}
-            <div className={`w-full md:w-1/5 flex flex-col justify-center items-center p-8 bg-white shadow-lg ${showResults ? "md:w-full" : ""}`}>
+            <div className={` w-1/5 flex flex-col justify-center items-center p-8 bg-white shadow-lg `}>
                 <h1 className="text-5xl font-bold text-blue-800 mb-20">
                     Make your booking experience easy!
                 </h1>
@@ -129,7 +129,7 @@ const UserHome = () => {
             </div>
 
             {/* Right Section: Seat Layout, Search Results, or Initial Image */}
-            <div className="w-full md:w-4/5 p-8">
+            <div className="w-4/5 p-8">
                 {selectedTrain ? (
                     <div>
                         {/* Back to Search Button */}
@@ -194,4 +194,4 @@ const UserHome = () => {
     );
 };
 
-export default UserHome;
+export default Booking;

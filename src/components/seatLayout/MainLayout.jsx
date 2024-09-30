@@ -2,70 +2,91 @@ import React, { useState, useEffect } from 'react';
 import FirstClassSeatLayout from './FirstClassSeatLayout';
 import SecondClassSeatLayout from './SecondClassSeatLayout';
 import ThirdClassSeatLayout from './ThirdClassSeatLayout';
+import { useNavigate } from 'react-router-dom'; // Ensure to import this for navigation
 
 const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destinationName, allData }) => {
     const [currentClass, setCurrentClass] = useState(1);
     const [currentCart, setCurrentCart] = useState(1);
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [seatData, setSeatData] = useState({});
+
+    const navigate = useNavigate(); // Added navigation handler
 
     // Prices for each class
-    const classPrices = { 1: 150, 2: 100, 3: 50 };
+    const firstClassPrice = parseInt(allData.prices[0].price, 10);
+    const secondClassPrice = parseInt(allData.prices[1].price, 10);
+    const thirdClassPrice = parseInt(allData.prices[2].price, 10);
 
+    const classPrices = { 1: firstClassPrice, 2: secondClassPrice, 3: thirdClassPrice };
     const trainID = allData.ID;
+    const BASE_URL = process.env.REACT_APP_BACKEND_API_URL;
 
-    // Extract seat count and cart count from `allData`
-    const totalFirstClassSeatsCount = allData.seatReservations[0].totalCount;
-    const totalSecondClassSeatsCount = allData.seatReservations[1].totalCount;
-    const totalThirdClassSeatsCount = allData.seatReservations[2].totalCount;
+    // Fetch booked seats when component mounts
+    useEffect(() => {
+        const fetchBookedSeats = async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/booking/get/seats?from=${originName}&to=${destinationName}&frequency=2024-09-24&id=${trainID}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch booked seats');
+                }
+                const data = await response.json();
+                processBookedSeats(data);
+            } catch (error) {
+                console.error('Error fetching seats:', error);
+            }
+        };
 
-    const totalFirstClassCartCount = allData.seatReservations[0].totalCarts;
-    const totalSecondClassCartCount = allData.seatReservations[1].totalCarts;
-    const totalThirdClassCartCount = allData.seatReservations[2].totalCarts;
+        fetchBookedSeats();
+    }, [originName, destinationName, trainID, BASE_URL]);
 
-    // Calculate number of seats per cart
-    const fClassCartSeats = Math.ceil(totalFirstClassSeatsCount / totalFirstClassCartCount);
-    const sClassCartSeats = Math.ceil(totalSecondClassSeatsCount / totalSecondClassCartCount);
-    const tClassCartSeats = Math.ceil(totalThirdClassSeatsCount / totalThirdClassCartCount);
+    // Process the nested booked seats data and update seatData
+    const processBookedSeats = (data) => {
+        const updatedSeatData = {
+            1: generateSeatData(allData.seatReservations[0]),
+            2: generateSeatData(allData.seatReservations[1]),
+            3: generateSeatData(allData.seatReservations[2]),
+        };
 
-    // Generate seat data dynamically
-    const generateSeatData = (totalCarts, seatsPerCart) => {
-        return Array.from({ length: totalCarts }, (_, cartIndex) => ({
-            cart: cartIndex + 1,
-            seats: Array.from({ length: seatsPerCart }, (_, seatIndex) => ({
-                number: seatIndex + 1,
-                status: 0 // 0 means available, 1 means booked
-            }))
-        }));
+        data.forEach((classData, classIndex) => {
+            classData.forEach((cartData, cartIndex) => {
+                cartData.forEach(seatNumber => {
+                    const cart = updatedSeatData[classIndex + 1][cartIndex];
+                    const seat = cart.seats.find(seat => seat.number === seatNumber);
+                    if (seat) {
+                        seat.status = 1; // Mark as booked
+                    }
+                });
+            });
+        });
+
+        setSeatData(updatedSeatData); // Update state to trigger re-render
     };
 
-    // Initialize seat data as state
-    const [seatData, setSeatData] = useState({
-        1: generateSeatData(totalFirstClassCartCount, fClassCartSeats),
-        2: generateSeatData(totalSecondClassCartCount, sClassCartSeats),
-        3: generateSeatData(totalThirdClassCartCount, tClassCartSeats),
-    });
+    // Generate seat data dynamically based on the total count and number of carts
+    const generateSeatData = (seatReservation) => {
+        const { totalCarts, totalCount } = seatReservation;
+        let seatData = [];
+        let seatNumber = 1;
 
-    // Example of booked seats
-    const bookedSeats = [
-        { class: 1, cart: 1, number: 5 },
-        { class: 2, cart: 2, number: 10 },
-        { class: 3, cart: 3, number: 15 },
-    ];
+        for (let cartIndex = 0; cartIndex < totalCarts; cartIndex++) {
+            const seatsPerCart = Math.ceil(totalCount / totalCarts); // Calculate seats per cart
+            const cartSeats = [];
 
-    // Load booked seats into state and trigger a re-render
-    useEffect(() => {
-        const updatedSeatData = { ...seatData };
-        bookedSeats.forEach(({ class: cls, cart, number }) => {
-            const cartIndex = updatedSeatData[cls].findIndex(c => c.cart === cart);
-            if (cartIndex !== -1) {
-                const seatIndex = updatedSeatData[cls][cartIndex].seats.findIndex(s => s.number === number);
-                if (seatIndex !== -1) {
-                    updatedSeatData[cls][cartIndex].seats[seatIndex].status = 1; // Mark as booked
-                }
+            for (let seatIndex = 0; seatIndex < seatsPerCart; seatIndex++) {
+                cartSeats.push({
+                    number: seatNumber++, // Increment seat number for each seat
+                    status: 0 // 0 means available, 1 means booked
+                });
             }
-        });
-        setSeatData(updatedSeatData); // Update state to trigger re-render
-    }, [bookedSeats, seatData]);
+
+            seatData.push({
+                cart: cartIndex + 1,
+                seats: cartSeats
+            });
+        }
+
+        return seatData;
+    };
 
     // Handle seat selection
     const handleSeatSelection = (seat, cart) => {
@@ -89,6 +110,10 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
 
     const getSeatLayout = () => {
         const data = seatData[currentClass];
+        if (!data) {
+            return <p>Loading seat layout...</p>;
+        }
+
         switch (currentClass) {
             case 1:
                 return (
@@ -99,7 +124,7 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
                         currentCart={currentCart}
                         onNextCart={handleNextCart}
                         onPrevCart={handlePrevCart}
-                        cartCount={totalFirstClassCartCount}
+                        cartCount={allData.seatReservations[0].totalCarts}
                     />
                 );
             case 2:
@@ -111,7 +136,7 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
                         currentCart={currentCart}
                         onNextCart={handleNextCart}
                         onPrevCart={handlePrevCart}
-                        cartCount={totalSecondClassCartCount}
+                        cartCount={allData.seatReservations[1].totalCarts}
                     />
                 );
             case 3:
@@ -123,7 +148,7 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
                         currentCart={currentCart}
                         onNextCart={handleNextCart}
                         onPrevCart={handlePrevCart}
-                        cartCount={totalThirdClassCartCount}
+                        cartCount={allData.seatReservations[2].totalCarts}
                     />
                 );
             default:
@@ -132,9 +157,21 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
     };
 
     // Calculate total price
-    const totalPrice = selectedSeats.reduce((total, seat) => {
-        return total + classPrices[seat.class];
-    }, 0);
+    const totalPrice = selectedSeats.reduce((total, seat) => total + classPrices[seat.class], 0);
+
+    const handleProceedToCheckout = () => {
+        navigate('user/checkout', {
+            state: {
+                selectedSeats,
+                totalPrice,
+                allData,
+                trainID,
+                originName,
+                destinationName,
+                BASE_URL: process.env.REACT_APP_BACKEND_API_URL
+            }
+        });
+    };
 
     return (
         <div className="flex">
@@ -144,12 +181,10 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
                         <h2 className="text-4xl font-bold text-blue-900 mb-3">{TrainName}</h2>
                         <img src="/icons/image.png" alt="train" className="w-32 h-auto ml-4 -mt-6" />
                     </div>
-
                     <div className="flex flex-row justify-between mb-4">
                         <p className="text-2xl font-semibold text-blue-700">{originName}</p>
                         <p className="text-2xl font-semibold text-blue-700">{destinationName}</p>
                     </div>
-
                     <div className="flex flex-row justify-between pb-4">
                         <p className="text-lg text-gray-700">Departure Time: {departureTime}</p>
                         <p className="text-lg text-gray-700">Arrival Time: {arrivalTime}</p>
@@ -157,52 +192,37 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
                 </div>
 
                 <div className="flex flex-row items-center text-black font-semibold mb-4">
-                    <button
-                        className={`w-full mb-2 px-4 border-x-2 border-black py-2 rounded ${currentClass === 1 ? 'bg-blue-700 text-white' : 'bg-gray-200'}`}
-                        onClick={() => {
-                            setCurrentClass(1);
-                            setCurrentCart(1);
-                        }}
-                    >
-                        1st Class
-                    </button>
-                    <button
-                        className={`w-full mb-2 px-4 border-r-2 border-black py-2 rounded ${currentClass === 2 ? 'bg-blue-700 text-white' : 'bg-gray-200'}`}
-                        onClick={() => {
-                            setCurrentClass(2);
-                            setCurrentCart(1);
-                        }}
-                    >
-                        2nd Class
-                    </button>
-                    <button
-                        className={`w-full mb-2 px-4 border-r-2 border-black py-2 rounded ${currentClass === 3 ? 'bg-blue-700 text-white' : 'bg-gray-200'}`}
-                        onClick={() => {
-                            setCurrentClass(3);
-                            setCurrentCart(1);
-                        }}
-                    >
-                        3rd Class
-                    </button>
+                    {['1st Class', '2nd Class', '3rd Class'].map((label, idx) => (
+                        <button
+                            key={idx}
+                            className={`w-full mb-2 px-4 py-2 rounded ${currentClass === idx + 1 ? 'bg-blue-700 text-white' : 'bg-gray-200'}`}
+                            onClick={() => {
+                                setCurrentClass(idx + 1);
+                                setCurrentCart(1);
+                            }}
+                        >
+                            {label}
+                        </button>
+                    ))}
                 </div>
                 {getSeatLayout()}
             </div>
             <div className="w-1/5 p-6 bg-gray-100 rounded-lg shadow-lg">
                 <div className="mt-4">
                     <h2 className="text-xl text-black mb-2">Selected Seats:</h2>
-                    <table className='text-blue-500 items-center'>
+                    <table className='text-blue-500'>
                         <thead>
                             <tr>
                                 <th className="pr-4">Class</th>
                                 <th className="pr-4">Cart</th>
                                 <th className="pr-4">Seat</th>
-                                <th className="pr-4">Price(LKR)</th>
+                                <th className="pr-4">Price (LKR)</th>
                             </tr>
                         </thead>
                         <tbody>
                             {selectedSeats.map((seat, index) => (
                                 <tr key={index} className='border-b-2 border-black'>
-                                    <td className="pr-4">{seat.class === 1 ? '1C' : seat.class === 2 ? '2C' : '3C'}</td>
+                                    <td className="pr-4">{seat.class}C</td>
                                     <td className="pr-4">{seat.cart}</td>
                                     <td className="pr-4">{seat.number}</td>
                                     <td className="pr-4">{classPrices[seat.class]}</td>
@@ -210,8 +230,16 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
                             ))}
                         </tbody>
                     </table>
-                    <h3 className="text-lg font-semibold mt-2">Total Price: {totalPrice} LKR</h3>
                 </div>
+                <h2 className="text-xl text-black mb-2">Total Price: {totalPrice}</h2>
+
+                <button
+                    className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded"
+                    onClick={handleProceedToCheckout}
+                    disabled={selectedSeats.length === 0}
+                >
+                    Proceed to Checkout
+                </button>
             </div>
         </div>
     );
