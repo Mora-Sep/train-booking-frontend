@@ -6,6 +6,7 @@ import { BookingStepGlobalState } from "../components/Layout/BookingStepGlobalSt
 import axios from "axios";
 import Cookies from "js-cookie";
 import "react-datepicker/dist/react-datepicker.css";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const BaseURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -69,6 +70,7 @@ const Login = () => {
       const response = await axios.post(`${BaseURL}/users/login`, postData);
 
       if (response.status === 200) {
+        toast.success("Login successful", { className: "custom-toast" });
         Cookies.set("access-token", response.data.token, { expires: 1 / 24 });
 
         const jwtToken = response.data.token; // JWT token
@@ -93,13 +95,16 @@ const Login = () => {
         setBookingStep("seatReserve");
         navigate("/booking");
       } else {
-        alert("Something went wrong");
+        toast.error("Failed to login", { className: "custom-toast" });
         throw new Error("Something went wrong");
       }
     } catch (error) {
       if (error.response && error.response.status) {
-        alert("Invalid username or password");
+        console.log(error.response.status);
         if (error.response.status === 401 || error.response.status === 400) {
+          toast.error("Invalid username or password", {
+            className: "custom-toast",
+          });
           setRandomError("Invalid username or password");
         }
       }
@@ -143,7 +148,9 @@ const Login = () => {
                 placeholder="Enter your username/email"
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
-              {usernameError && <div className="text-red-500">{usernameError}</div>}
+              {usernameError && (
+                <div className="text-red-500">{usernameError}</div>
+              )}
             </div>
             <div>
               <label
@@ -161,7 +168,9 @@ const Login = () => {
                 placeholder="Enter your password"
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
-              {passwordError && <div className="text-red-500">{passwordError}</div>}
+              {passwordError && (
+                <div className="text-red-500">{passwordError}</div>
+              )}
             </div>
             {randomError && <div className="text-red-500">{randomError}</div>}
             <button
