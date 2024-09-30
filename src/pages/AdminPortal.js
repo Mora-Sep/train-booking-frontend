@@ -82,11 +82,8 @@ function AdminPortal() {
         throw new Error("Something went wrong");
       }
     } catch (error) {
-      alert(error);
-      if (error.response.status) {
-        if (error.response.status === 401) {
-          setRandomError("Invalid username or password");
-        }
+      if (error.status === 401) {
+        alert("Invalid username or password");
       }
     }
   }
@@ -97,7 +94,9 @@ function AdminPortal() {
         onSubmit={handleSubmitClick}
         className="w-full text-black max-w-sm bg-white p-8 shadow-lg rounded"
       >
-        <h2 className="text-2xl text-gray-700 text-center font-bold mb-6">Admin Login</h2>
+        <h2 className="text-2xl text-gray-700 text-center font-bold mb-6">
+          Admin Login
+        </h2>
 
         <div className="mb-4">
           <label

@@ -5,6 +5,7 @@ import AdminDashboard from "../../admin/AdminDashboard";
 import UserDetails from "../../admin/UserDetails";
 import ActDctTrip from "../../admin/ActDctTrip";
 import DeleteSection from "../../admin/DeleteSection";
+import Reports from "../../admin/Reports";
 
 const AdminRoutes = () => (
   <Routes>
@@ -12,6 +13,7 @@ const AdminRoutes = () => (
       <Route index element={<UserDetails />} />
       <Route path="user-details" element={<UserDetails />} />
       <Route path="activate-trip" element={<ActDctTrip />} />
+      <Route path="reports" element={<Reports />} />
       <Route path="delete-section" element={<DeleteSection />} />
     </Route>
   </Routes>
