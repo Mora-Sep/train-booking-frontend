@@ -142,10 +142,17 @@ const UserHome = () => {
 
                         {/* Seat Layout */}
                         <MainSeatLayout
-                            train={selectedTrain}
+                            TrainName={selectedTrain.trainName}  // Pass train name
+                            departureTime={selectedTrain.departureDateAndTime} // Pass departure time
+                            arrivalTime={selectedTrain.arrivalDateAndTime} // Pass arrival time
+                            originName={selectedTrain.originName}
+                            destinationName={selectedTrain.destinationName} // Pass origin name
+                            allData={selectedTrain} // Pass seat reservations
                             onBack={handleBackToSearch} // Pass the back function
                         />
+
                     </div>
+
                 ) : showResults ? (
                     <div>
                         <h2 className="text-3xl font-bold text-gray-800 mb-8">Search Results</h2>
@@ -168,6 +175,7 @@ const UserHome = () => {
                                         >
                                             View Seats
                                         </button>
+
                                     </div>
                                 ))
                             ) : (
