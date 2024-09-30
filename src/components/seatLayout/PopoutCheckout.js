@@ -5,6 +5,7 @@ import { UserGlobalState } from "../Layout/UserGlobalState"; // Import the globa
 import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { AiOutlineClose } from "react-icons/ai"; // Importing close icon
 
 <script src="https://js.stripe.com/terminal/v1/"></script>;
 
