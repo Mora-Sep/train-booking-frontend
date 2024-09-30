@@ -19,6 +19,7 @@ import AdminPortal from "../../pages/AdminPortal";
 import DEOPortal from "./../../pages/DEOPortal";
 import Payment from "../../pages/Payment";
 import MainSeatLayout from "../../components/seatLayout/MainLayout";
+import Checkout from "../../pages/Checkout";
 
 const AppRoutes = () => {
   return (
@@ -58,6 +59,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute requiredRole="deo">
             <DEORoutes />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/checkout"
+        element={
+          <ProtectedRoute requiredRole="user">
+            <Checkout />
           </ProtectedRoute>
         }
       />

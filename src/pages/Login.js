@@ -1,10 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthFormGlobalState } from "../components/Layout/AuthFormGlobalState";
 import { UserGlobalState } from "../components/Layout/UserGlobalState";
 import { BookingStepGlobalState } from "../components/Layout/BookingStepGlobalState";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "react-datepicker/dist/react-datepicker.css";
@@ -26,9 +24,7 @@ const Login = () => {
     const usernameRegex =
       /^(?=.{3,30}$)([a-zA-Z0-9_]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
     if (usernameRegex.test(username) === false) {
-      setUsernameError(`
-          Enter a valid username
-      `);
+      setUsernameError("Enter a valid username");
     } else {
       setUsernameError(null);
       setRandomError(null);
@@ -38,9 +34,7 @@ const Login = () => {
   const validatePassword = () => {
     const passwordRegex = /^[a-zA-Z0-9@]{4,30}$/;
     if (passwordRegex.test(password) === false) {
-      setPasswordError(`
-          Enter a valid password
-      `);
+      setPasswordError("Enter a valid password");
     } else {
       setPasswordError(null);
       setRandomError(null);
@@ -55,7 +49,7 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  async function handleSubmitClick(e) {
+  const handleSubmitClick = async (e) => {
     e.preventDefault();
 
     if (usernameError || passwordError) {
@@ -77,20 +71,24 @@ const Login = () => {
       if (response.status === 200) {
         Cookies.set("access-token", response.data.token, { expires: 1 / 24 });
 
-        // Assuming `jwtToken` is your JWT token string
-        const jwtToken = response.data.token; // Example token
-
-        // Split the token into parts
-        const parts = jwtToken.split(".");
+        const jwtToken = response.data.token; // JWT token
 
         // Decode the payload
-        const decodedPayload = atob(parts[1]);
+        const payload = JSON.parse(atob(jwtToken.split(".")[1]));
 
-        // Parse the decoded payload
-        const payload = JSON.parse(decodedPayload);
-        console.log(bookingStep, currentUserData);
+        // Update global state with user data
+        setCurrentUserData({
+          username: payload.username,
+          firstName: payload.firstName,
+          lastName: payload.lastName,
+          isAdmin: payload.isAdmin,
+          isDataEntryOperator: payload.isDataEntryOperator,
+          bookingsCount: payload.bookingsCount,
+          category: payload.category,
+          nic: payload.nic,
+          email: payload.email,
+        });
 
-        setCurrentUserData(payload);
         setAuthForm("user");
         setBookingStep("seatReserve");
         navigate("/booking");
@@ -99,14 +97,14 @@ const Login = () => {
         throw new Error("Something went wrong");
       }
     } catch (error) {
-      if (error.response.status) {
+      if (error.response && error.response.status) {
         alert("Invalid username or password");
-        if (error.response.status === 401 || 400) {
+        if (error.response.status === 401 || error.response.status === 400) {
           setRandomError("Invalid username or password");
         }
       }
     }
-  }
+  };
 
   return (
     <div className="flex p-0 flex-col lg:flex-row h-screen mt-18">
@@ -145,7 +143,7 @@ const Login = () => {
                 placeholder="Enter your username/email"
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
-              {usernameError && <div className="">{usernameError}</div>}
+              {usernameError && <div className="text-red-500">{usernameError}</div>}
             </div>
             <div>
               <label
@@ -163,9 +161,9 @@ const Login = () => {
                 placeholder="Enter your password"
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
-              {passwordError && <div className="">{passwordError}</div>}
+              {passwordError && <div className="text-red-500">{passwordError}</div>}
             </div>
-            {randomError && <div className="">{randomError}</div>}
+            {randomError && <div className="text-red-500">{randomError}</div>}
             <button
               type="submit"
               className="btn btn-primary w-full text-white font-semibold text-lg"

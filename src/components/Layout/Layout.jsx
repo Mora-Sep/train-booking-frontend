@@ -4,6 +4,7 @@ import { UserGlobalStateProvider } from "./UserGlobalState";
 import { BookingStepGlobalStateProvider } from "./BookingStepGlobalState";
 import { UserMenuGlobalStateProvider } from "./UserMenuGlobalState";
 import { AuthFormGlobalStateProvider } from "./AuthFormGlobalState";
+
 import Footer from "./../Footer";
 
 export default function Layout({ children }) {
@@ -16,8 +17,10 @@ export default function Layout({ children }) {
         <UserGlobalStateProvider>
           <UserMenuGlobalStateProvider>
             <BookingStepGlobalStateProvider>
+
               <div>{children}</div>
               {showFooter && <Footer />}
+
             </BookingStepGlobalStateProvider>
           </UserMenuGlobalStateProvider>
         </UserGlobalStateProvider>

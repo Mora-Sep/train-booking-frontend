@@ -60,14 +60,14 @@ const UserDetails = () => {
     if (!userData) return <div>Loading...</div>;
 
     return (
-        <div className="">
+        <div className="p-6">
             <h1 className="text-2xl font-semibold mb-4 text-blue-600">
                 {isEditing ? 'Edit Password' : 'User Profile'}
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 {/* Display user details in a two-column layout */}
                 {Object.keys(userData).map((key) => (
-                    key !== 'Bookings_Count' && key !== 'currentPassword' && key !== 'newPassword' && (
+                    key !== 'currentPassword' && key !== 'newPassword' && (
                         <div key={key} className="flex items-center">
                             <label className="w-32 font-medium text-gray-700">
                                 {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}

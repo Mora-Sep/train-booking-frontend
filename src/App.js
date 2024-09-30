@@ -1,8 +1,10 @@
+// src/App.js
 import React from "react";
 import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import AppRoutes from "./setup/routes/AppRoutes";
 import Navbar from "./components/Navbar";
 import Layout from "./components/Layout/Layout";
+import { AuthProvider } from "./components/Layout/AuthContext";
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -19,9 +21,11 @@ const AppWrapper = () => {
 function App() {
   return (
     <Router>
-      <Layout>
-        <AppWrapper />
-      </Layout>
+      <AuthProvider>
+        <Layout>
+          <AppWrapper />
+        </Layout>
+      </AuthProvider>
     </Router>
   );
 }

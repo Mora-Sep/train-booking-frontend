@@ -15,17 +15,17 @@ const items = [
     {
         key: '1',
         icon: <UserOutlined />,
-        label: <Link to="/user-dashboard/user-details">User Details</Link>,
+        label: <Link to="/user/user-details">User Details</Link>,
     },
     {
         key: '2',
         icon: <DesktopOutlined />,
-        label: <Link to="/user-dashboard/complain">Complain</Link>,
+        label: <Link to="/user/complain">Complain</Link>,
     },
     {
         key: '3',
         icon: <ContainerOutlined />,
-        label: <Link to="/user-dashboard/order-history">Order History</Link>,
+        label: <Link to="/user/order-history">Order History</Link>,
     },
     // Additional menu items can be added here
 ];
@@ -62,7 +62,9 @@ const UserDashboard = () => {
                     <Outlet />
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
-                    <Button type="primary" danger>Logout</Button>
+                    <Button type="primary" danger>
+                        Logout
+                    </Button>
                 </Footer>
             </Layout>
         </Layout>

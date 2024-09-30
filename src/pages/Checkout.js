@@ -4,21 +4,35 @@ const Checkout = ({ selectedSeats, totalPrice, allData, BASE_URL, trainID, origi
     const [userDetails, setUserDetails] = useState(null);
     const [refID, setRefID] = useState(null);
     const [isBookingConfirmed, setIsBookingConfirmed] = useState(false);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true); // For loading state
 
     // Fetch user details when component mounts
     useEffect(() => {
         const fetchUserDetails = async () => {
-            const response = await fetch(`${BASE_URL}/users/details`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    Username: "testuser"
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
+            try {
+                const response = await fetch(`${BASE_URL}/users/details`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        Username: "testuser"
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user details');
                 }
-            });
-            const data = await response.json();
-            setUserDetails(data);
+
+                const data = await response.json();
+                setUserDetails(data);
+                setError(null); // Clear any previous error
+            } catch (err) {
+                setError(err.message); // Set error message
+            } finally {
+                setLoading(false); // End loading state
+            }
         };
 
         fetchUserDetails();
@@ -26,48 +40,79 @@ const Checkout = ({ selectedSeats, totalPrice, allData, BASE_URL, trainID, origi
 
     // Create booking
     const handleBooking = async () => {
-        const passengers = selectedSeats.map(seat => ({
-            seatNumber: seat.number,
-            class: seat.class === 1 ? 'F' : seat.class === 2 ? 'S' : 'T', // 'F' for First, 'S' for Second, 'T' for Third
-            firstName: userDetails.FirstName,
-            lastName: userDetails.LastName,
-            isAdult: true // Assuming all passengers are adults for simplicity
-        }));
+        try {
+            const passengers = selectedSeats.map(seat => ({
+                seatNumber: seat.number,
+                class: seat.class === 1 ? 'F' : seat.class === 2 ? 'S' : 'T', // 'F' for First, 'S' for Second, 'T' for Third
+                firstName: userDetails.FirstName,
+                lastName: userDetails.LastName,
+                isAdult: true // Assuming all passengers are adults for simplicity
+            }));
 
-        const bookingData = {
-            tripID: trainID,
-            from: originName,
-            to: destinationName,
-            passengers: passengers
-        };
+            const bookingData = {
+                tripID: trainID,
+                from: originName,
+                to: destinationName,
+                passengers: passengers
+            };
 
-        const response = await fetch(`${BASE_URL}/booking/user/create/booking`, {
-            method: 'POST',
-            body: JSON.stringify(bookingData),
-            headers: {
-                'Content-Type': 'application/json',
+            const response = await fetch(`${BASE_URL}/booking/user/create/booking`, {
+                method: 'POST',
+                body: JSON.stringify(bookingData),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to create booking');
             }
-        });
 
-        const data = await response.json();
-        setRefID(data.refID); // Set the reference ID for payment
-        setIsBookingConfirmed(true);
+            const data = await response.json();
+            setRefID(data.refID); // Set the reference ID for payment
+            setIsBookingConfirmed(true);
+            setError(null); // Clear any previous error
+        } catch (err) {
+            setError(err.message); // Set error message
+        }
     };
 
     // Proceed to payment
     const handlePayment = async () => {
-        if (refID) {
-            const response = await fetch(`${BASE_URL}/booking/get-checkout-session?bookingRefID=${refID}`);
-            const data = await response.json();
+        try {
+            if (refID) {
+                const response = await fetch(`${BASE_URL}/booking/get-checkout-session?bookingRefID=${refID}`);
 
-            if (data.status === 'success') {
-                window.location.href = data.session.url; // Redirect to Stripe checkout page
+                if (!response.ok) {
+                    throw new Error('Failed to initiate payment');
+                }
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    window.location.href = data.session.url; // Redirect to Stripe checkout page
+                } else {
+                    throw new Error('Payment session could not be created');
+                }
             }
+        } catch (err) {
+            setError(err.message); // Set error message
         }
     };
 
-    if (!userDetails) {
+    // Show loading state while fetching data
+    if (loading) {
         return <p>Loading user details...</p>;
+    }
+
+    // Show error if there's an issue
+    if (error) {
+        return <div className="text-red-500">
+            <p>Error: {error}</p>
+            <button onClick={() => window.location.reload()} className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4">
+                Retry
+            </button>
+        </div>;
     }
 
     return (
