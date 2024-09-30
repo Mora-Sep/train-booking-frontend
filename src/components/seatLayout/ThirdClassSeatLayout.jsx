@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaSquare, FaRegSquare } from 'react-icons/fa';
 
-const ThirdClassSeatLayout = ({ seats, onSeatSelect, selectedSeats, currentCart, onNextCart, onPrevCart }) => {
+const ThirdClassSeatLayout = ({ seats, onSeatSelect, selectedSeats, currentCart, onNextCart, onPrevCart, cartCount }) => {
     return (
         <div className="flex flex-col items-center p-4">
             <div className="flex justify-between w-full mb-4">
@@ -13,7 +13,7 @@ const ThirdClassSeatLayout = ({ seats, onSeatSelect, selectedSeats, currentCart,
                     Previous Cart
                 </button>
                 <div className="text-center w-full">
-                    Third Class - Cart {currentCart}
+                    Third Class - Cart {currentCart} out of {cartCount}
                 </div>
                 <button
                     className="px-4 py-2 bg-blue-700 text-white rounded"

@@ -3,37 +3,7 @@ import FirstClassSeatLayout from './FirstClassSeatLayout';
 import SecondClassSeatLayout from './SecondClassSeatLayout';
 import ThirdClassSeatLayout from './ThirdClassSeatLayout';
 
-// Dummy seat data
-const seatData = {
-    1: [
-        { cart: 1, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 2, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 3, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-    ],
-    2: [
-        { cart: 1, seats: Array.from({ length: 50 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 2, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 3, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-    ],
-    3: [
-        { cart: 1, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 2, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 3, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 4, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-        { cart: 5, seats: Array.from({ length: 40 }, (_, index) => ({ number: index + 1, status: 0 })) },
-    ],
-};
-
-// Example of booked seats
-const bookedSeats = [
-    { class: 1, cart: 1, number: 5 },
-    { class: 2, cart: 2, number: 10 },
-    { class: 3, cart: 3, number: 15 },
-];
-
-const TrainName = 'Udarata Manike';
-
-const MainLayout = () => {
+const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destinationName, allData }) => {
     const [currentClass, setCurrentClass] = useState(1);
     const [currentCart, setCurrentCart] = useState(1);
     const [selectedSeats, setSelectedSeats] = useState([]);
@@ -41,19 +11,61 @@ const MainLayout = () => {
     // Prices for each class
     const classPrices = { 1: 150, 2: 100, 3: 50 };
 
-    // Load booked seats into state
+    const trainID = allData.ID;
+
+    // Extract seat count and cart count from `allData`
+    const totalFirstClassSeatsCount = allData.seatReservations[0].totalCount;
+    const totalSecondClassSeatsCount = allData.seatReservations[1].totalCount;
+    const totalThirdClassSeatsCount = allData.seatReservations[2].totalCount;
+
+    const totalFirstClassCartCount = allData.seatReservations[0].totalCarts;
+    const totalSecondClassCartCount = allData.seatReservations[1].totalCarts;
+    const totalThirdClassCartCount = allData.seatReservations[2].totalCarts;
+
+    // Calculate number of seats per cart
+    const fClassCartSeats = Math.ceil(totalFirstClassSeatsCount / totalFirstClassCartCount);
+    const sClassCartSeats = Math.ceil(totalSecondClassSeatsCount / totalSecondClassCartCount);
+    const tClassCartSeats = Math.ceil(totalThirdClassSeatsCount / totalThirdClassCartCount);
+
+    // Generate seat data dynamically
+    const generateSeatData = (totalCarts, seatsPerCart) => {
+        return Array.from({ length: totalCarts }, (_, cartIndex) => ({
+            cart: cartIndex + 1,
+            seats: Array.from({ length: seatsPerCart }, (_, seatIndex) => ({
+                number: seatIndex + 1,
+                status: 0 // 0 means available, 1 means booked
+            }))
+        }));
+    };
+
+    // Initialize seat data as state
+    const [seatData, setSeatData] = useState({
+        1: generateSeatData(totalFirstClassCartCount, fClassCartSeats),
+        2: generateSeatData(totalSecondClassCartCount, sClassCartSeats),
+        3: generateSeatData(totalThirdClassCartCount, tClassCartSeats),
+    });
+
+    // Example of booked seats
+    const bookedSeats = [
+        { class: 1, cart: 1, number: 5 },
+        { class: 2, cart: 2, number: 10 },
+        { class: 3, cart: 3, number: 15 },
+    ];
+
+    // Load booked seats into state and trigger a re-render
     useEffect(() => {
-        const updatedSeats = { ...seatData };
+        const updatedSeatData = { ...seatData };
         bookedSeats.forEach(({ class: cls, cart, number }) => {
-            const cartIndex = updatedSeats[cls].findIndex(c => c.cart === cart);
+            const cartIndex = updatedSeatData[cls].findIndex(c => c.cart === cart);
             if (cartIndex !== -1) {
-                const seatIndex = updatedSeats[cls][cartIndex].seats.findIndex(s => s.number === number);
+                const seatIndex = updatedSeatData[cls][cartIndex].seats.findIndex(s => s.number === number);
                 if (seatIndex !== -1) {
-                    updatedSeats[cls][cartIndex].seats[seatIndex].status = 1; // 1 for booked
+                    updatedSeatData[cls][cartIndex].seats[seatIndex].status = 1; // Mark as booked
                 }
             }
         });
-    }, []);
+        setSeatData(updatedSeatData); // Update state to trigger re-render
+    }, [bookedSeats, seatData]);
 
     // Handle seat selection
     const handleSeatSelection = (seat, cart) => {
@@ -87,6 +99,7 @@ const MainLayout = () => {
                         currentCart={currentCart}
                         onNextCart={handleNextCart}
                         onPrevCart={handlePrevCart}
+                        cartCount={totalFirstClassCartCount}
                     />
                 );
             case 2:
@@ -98,6 +111,7 @@ const MainLayout = () => {
                         currentCart={currentCart}
                         onNextCart={handleNextCart}
                         onPrevCart={handlePrevCart}
+                        cartCount={totalSecondClassCartCount}
                     />
                 );
             case 3:
@@ -109,6 +123,7 @@ const MainLayout = () => {
                         currentCart={currentCart}
                         onNextCart={handleNextCart}
                         onPrevCart={handlePrevCart}
+                        cartCount={totalThirdClassCartCount}
                     />
                 );
             default:
@@ -124,8 +139,23 @@ const MainLayout = () => {
     return (
         <div className="flex">
             <div className="flex flex-col w-4/5 p-6 bg-white rounded-lg shadow-lg">
+                <div className='pb-3'>
+                    <div className='flex flex-row justify-center items-center'>
+                        <h2 className="text-4xl font-bold text-blue-900 mb-3">{TrainName}</h2>
+                        <img src="/icons/image.png" alt="train" className="w-32 h-auto ml-4 -mt-6" />
+                    </div>
 
-                <div className='text-blue-800 text-3xl font-serif font-bold text-center pb-5'>{TrainName}</div>
+                    <div className="flex flex-row justify-between mb-4">
+                        <p className="text-2xl font-semibold text-blue-700">{originName}</p>
+                        <p className="text-2xl font-semibold text-blue-700">{destinationName}</p>
+                    </div>
+
+                    <div className="flex flex-row justify-between pb-4">
+                        <p className="text-lg text-gray-700">Departure Time: {departureTime}</p>
+                        <p className="text-lg text-gray-700">Arrival Time: {arrivalTime}</p>
+                    </div>
+                </div>
+
                 <div className="flex flex-row items-center text-black font-semibold mb-4">
                     <button
                         className={`w-full mb-2 px-4 border-x-2 border-black py-2 rounded ${currentClass === 1 ? 'bg-blue-700 text-white' : 'bg-gray-200'}`}
@@ -180,12 +210,7 @@ const MainLayout = () => {
                             ))}
                         </tbody>
                     </table>
-                    <div className="mt-4">
-                        <p className="text-xl text-red-600 font-bold">Total: LKR {totalPrice}</p>
-                        <button className="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded">
-                            Buy Selected Seats
-                        </button>
-                    </div>
+                    <h3 className="text-lg font-semibold mt-2">Total Price: {totalPrice} LKR</h3>
                 </div>
             </div>
         </div>
