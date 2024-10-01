@@ -72,6 +72,7 @@ const Login = () => {
       if (response.status === 200) {
         toast.success("Login successful", { className: "custom-toast" });
         Cookies.set("access-token", response.data.token, { expires: 1 / 24 });
+        localStorage.setItem("access-token", response.data.token);
 
         const jwtToken = response.data.token; // JWT token
 

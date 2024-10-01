@@ -71,6 +71,7 @@ const Sign = () => {
             Cookies.set("access-token", responseToken.data.token, {
               expires: 1,
             });
+            localStorage.setItem("access-token", responseToken.data.token);
             // Assuming `jwtToken` is your JWT token string
             const jwtToken = responseToken.data.token; // Example token
 
