@@ -230,14 +230,14 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
                 <ul>
                     {selectedSeats.map((seat, index) => (
                         <li key={index} className="flex justify-between mb-2">
-                            <span>Class {seat.class}: Seat {seat.number}</span>
-                            <span>${classPrices[seat.class]}</span>
+                            <span>Class {seat.class}: Cart: {seat.cart}: Seat {seat.number}</span>
+                            <span>Rs.{classPrices[seat.class]}</span>
                         </li>
                     ))}
                 </ul>
                 <div className="flex justify-between font-bold text-lg">
                     <span>Total:</span>
-                    <span>${totalPrice}</span>
+                    <span>Rs.{totalPrice}</span>
                 </div>
                 <button
                     className={`w-full mt-4 px-4 py-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-700 text-white' : 'bg-gray-400'}`}
