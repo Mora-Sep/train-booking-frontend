@@ -59,7 +59,7 @@ const Home = () => {
             </Link>
           </div>
 
-          {!currentUserData?.username && (
+          {/* {!currentUserData?.username && (
             <div className="text-white text-lg  pb-4">
               Sign in as{" "}
               <Link to="/deo-portal" className="underline text-lg">
@@ -70,7 +70,7 @@ const Home = () => {
                 Admin
               </Link>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

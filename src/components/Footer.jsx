@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="p-10 bg-gradient-to-r from-blue-400 to-purple-500 text-black">
+    <footer className="p-10 bg-gradient-to-r from-blue-600 to-purple-800 text-black">
       <div className="flex flex-row justify-between items-center mb-10">
         <img
           className="w-40 h-20"
@@ -10,10 +10,10 @@ function Footer() {
           alt="logo"
         />
         <div className="flex flex-col text-center">
-          <span className="text-xl font-semibold">
+          <span className="text-xl text-white font-semibold">
             Planning your next trip?
           </span>
-          <span className="text-sm mt-1 text-gray-800">
+          <span className="text-sm mt-1 text-white">
             Subscribe to our newsletter. Get the latest travel and trend deals!
           </span>
         </div>
@@ -29,7 +29,7 @@ function Footer() {
         </div>
       </div>
       <div className="flex flex-row justify-between items-center">
-        <div className="flex flex-row space-x-7 text-gray-950">
+        <div className="flex flex-row space-x-7 text-white">
           <Link className="hover:text-gray-600 transition duration-300">
             About US
           </Link>

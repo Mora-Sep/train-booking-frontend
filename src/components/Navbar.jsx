@@ -22,7 +22,7 @@ const Navbar = ({ profilePic }) => {
   };
 
   return (
-    <div className="navbar bg-transparent h-18 rounded-md">
+    <div className="navbar bg-gradient-to-r from-blue-600 to-purple-800 h-18 rounded-md">
       <div className="flex-1">
         <Link to="/" className="">
           <img
@@ -37,14 +37,14 @@ const Navbar = ({ profilePic }) => {
         {currentUserData?.username ? (
           <>
             <Link
-              to="/search-train"
-              className="px-4 text-lg font-semibold hover:text-blue-700 text-black"
+              to="/booking"
+              className="px-4 text-lg font-semibold hover:text-blue-700 text-white"
             >
               Search for a Train
             </Link>
             <Link
-              to="/bookings"
-              className="pl-4 pr-20 text-lg hover:text-blue-700 font-semibold text-black"
+              to="/user/order-history"
+              className="pl-4 pr-20 text-lg hover:text-blue-700 font-semibold text-white"
             >
               Bookings
             </Link>
@@ -53,13 +53,13 @@ const Navbar = ({ profilePic }) => {
           <>
             <button
               onClick={handleSignin}
-              className="px-4 text-lg font-semibold hover:text-blue-700 text-black"
+              className="px-4 text-lg font-semibold hover:text-blue-700 text-white"
             >
               Sign Up
             </button>
             <button
               onClick={handleLogin}
-              className="pl-4 pr-20 text-lg hover:text-blue-700 font-semibold text-black"
+              className="pl-4 pr-20 text-lg hover:text-blue-700 font-semibold text-white"
             >
               Login
             </button>

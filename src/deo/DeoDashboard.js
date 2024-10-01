@@ -28,9 +28,8 @@ function DeoDashboard() {
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <div
-        className={`bg-gray-800 text-white flex flex-col justify-between shadow-lg transition-all duration-300 ${
-          isCollapsed ? "w-16" : "w-1/5"
-        }`}
+        className={`bg-gray-800 text-white flex flex-col justify-between shadow-lg transition-all duration-300 ${isCollapsed ? "w-16" : "w-1/5"
+          }`}
       >
         <div>
           <button
@@ -41,9 +40,8 @@ function DeoDashboard() {
           </button>
 
           <h2
-            className={`text-2xl font-bold p-4 transition-all duration-300 ${
-              isCollapsed ? "hidden" : ""
-            }`}
+            className={`text-2xl font-bold p-4 transition-all duration-300 ${isCollapsed ? "hidden" : ""
+              }`}
           >
             DEO Dashboard
           </h2>
@@ -60,9 +58,8 @@ function DeoDashboard() {
               >
                 <FaUser className="text-lg" />
                 <span
-                  className={`ml-4 transition-all duration-300 ${
-                    isCollapsed ? "hidden" : ""
-                  }`}
+                  className={`ml-4 transition-all duration-300 ${isCollapsed ? "hidden" : ""
+                    }`}
                 >
                   User Details
                 </span>
@@ -79,9 +76,8 @@ function DeoDashboard() {
               >
                 <FaCalendarAlt className="text-lg" />
                 <span
-                  className={`ml-4 transition-all duration-300 ${
-                    isCollapsed ? "hidden" : ""
-                  }`}
+                  className={`ml-4 transition-all duration-300 ${isCollapsed ? "hidden" : ""
+                    }`}
                 >
                   Schedule A New Trip
                 </span>
@@ -98,9 +94,8 @@ function DeoDashboard() {
               >
                 <FaMapSigns className="text-lg" />
                 <span
-                  className={`ml-4 transition-all duration-300 ${
-                    isCollapsed ? "hidden" : ""
-                  }`}
+                  className={`ml-4 transition-all duration-300 ${isCollapsed ? "hidden" : ""
+                    }`}
                 >
                   Add Section
                 </span>
@@ -117,9 +112,8 @@ function DeoDashboard() {
               >
                 <FaClock className="text-lg" />
                 <span
-                  className={`ml-4 transition-all duration-300 ${
-                    isCollapsed ? "hidden" : ""
-                  }`}
+                  className={`ml-4 transition-all duration-300 ${isCollapsed ? "hidden" : ""
+                    }`}
                 >
                   Update Delay
                 </span>
@@ -128,11 +122,10 @@ function DeoDashboard() {
           </ul>
         </div>
 
-        {/* Conditionally hide the logout button when collapsed */}
+
         <div
-          className={`p-4 transition-all duration-300 ${
-            isCollapsed ? "hidden" : ""
-          }`}
+          className={`p-4 transition-all duration-300 ${isCollapsed ? "hidden" : ""
+            }`}
         >
           <button
             onClick={handleLogout}
@@ -143,7 +136,7 @@ function DeoDashboard() {
         </div>
       </div>
 
-      {/* Main Content Area */}
+
       <div className="flex-1 p-6 overflow-y-auto hide-scrollbar bg-gray-100">
         <Outlet />
       </div>

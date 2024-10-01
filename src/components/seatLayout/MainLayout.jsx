@@ -4,7 +4,7 @@ import axios from 'axios';
 import SecondClassSeatLayout from './SecondClassSeatLayout';
 import ThirdClassSeatLayout from './ThirdClassSeatLayout';
 import PopoutCheckout from './PopoutCheckout';
-import { UserGlobalState } from '../Layout/UserGlobalState'; // Import the global state
+import { UserGlobalState } from '../Layout/UserGlobalState'; // Use global state
 import Cookies from 'js-cookie';
 
 const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destinationName, allData }) => {
@@ -12,8 +12,10 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
     const [currentCart, setCurrentCart] = useState(1);
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [seatData, setSeatData] = useState({});
-    const [showCheckout, setShowCheckout] = useState(false); // State for controlling PopoutCheckout visibility
-    const { currentUserData } = UserGlobalState(); // Access global state
+    const [showCheckout, setShowCheckout] = useState(false); // state for check popout is visibel or not
+    const { currentUserData } = UserGlobalState();
+
+    const [checkoutRefID, setCheckoutRefID] = useState(null);
 
     // Prices for each class
     const classPrices = {
@@ -25,7 +27,7 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
     const trainID = allData.ID;
     const BASE_URL = process.env.REACT_APP_BACKEND_API_URL;
 
-    // Fetch booked seats when component mounts or relevant data changes
+    // Fetch booked seats by api
     useEffect(() => {
         const fetchBookedSeats = async () => {
             try {
@@ -77,7 +79,7 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
             for (let seatIndex = 0; seatIndex < seatsPerCart; seatIndex++) {
                 cartSeats.push({
                     number: seatNumber++,
-                    status: 0 // Initialize all seats as available
+                    status: 0 // make all seats initially available
                 });
             }
 
@@ -138,14 +140,14 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
         console.log('Proceeding to checkout...');
 
         const token = Cookies.get("access-token"); // Get the token from cookies
-        console.log('Token:', token); // Log the token
+        console.log('Token:', token);
 
         const passengers = selectedSeats.map(seat => ({
             seatNumber: seat.number.toString(),
             class: seat.class === 1 ? 'F' : seat.class === 2 ? 'S' : 'T',
             firstName: currentUserData.firstName,
             lastName: currentUserData.lastName,
-            isAdult: true, // For simplicity, assuming all are adults
+            isAdult: true, // assume all the seats bookings are adult
         }));
 
         const bookingData = {
@@ -161,22 +163,21 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
             const response = await axios.post(`${BASE_URL}/booking/user/create/booking`, bookingData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`, // Include the token in the headers
+                    Authorization: `Bearer ${token}`,
                 },
-                withCredentials: true // Include credentials to send cookies
+                withCredentials: true
             });
 
             console.log('Booking success:', response.data);
-            const refID = response.data.refID; // Assuming the response contains refID
+            const refID = response.data.refID;
             setShowCheckout(true);
-            setCheckoutRefID(refID); // Save refID to state to pass to PopoutCheckout
+            setCheckoutRefID(refID); // save ref id to pass to checkout popup
         } catch (error) {
             console.error('Error creating booking:', error.response?.data || error.message);
         }
     };
 
-    // Define a state to hold the refID
-    const [checkoutRefID, setCheckoutRefID] = useState(null);
+
 
 
 
@@ -225,28 +226,45 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
                 />
             )}
 
-            <div className="w-1/5 p-6">
-                <h3 className="text-2xl font-semibold mb-4">Selected Seats</h3>
-                <ul>
-                    {selectedSeats.map((seat, index) => (
-                        <li key={index} className="flex justify-between mb-2">
-                            <span>Class {seat.class}: Cart: {seat.cart}: Seat {seat.number}</span>
-                            <span>Rs.{classPrices[seat.class]}</span>
-                        </li>
-                    ))}
-                </ul>
-                <div className="flex justify-between font-bold text-lg">
-                    <span>Total:</span>
-                    <span>Rs.{totalPrice}</span>
+            <div className="w-1/5 p-6 ml-7 bg-white rounded-lg shadow-lg shadow-blue-300">
+                <h3 className="text-2xl font-semibold text-blue-900 mb-4 text-center">Selected Seats</h3>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-center text-blue-900">
+                        <thead>
+                            <tr>
+                                <th className="px-4 py-2 border-b">Class</th>
+                                <th className="px-4 py-2 border-b">Cart</th>
+                                <th className="px-4 py-2 border-b">Seat</th>
+                                <th className="px-4 py-2 border-b">Price (Rs.)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {selectedSeats.map((seat, index) => (
+                                <tr key={index} className="text-blue-700">
+                                    <td className="px-4 py-2 border-b">{seat.class}</td>
+                                    <td className="px-4 py-2 border-b">{seat.cart}</td>
+                                    <td className="px-4 py-2 border-b">{seat.number}</td>
+                                    <td className="px-4 py-2 border-b">Rs.{classPrices[seat.class]}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
-                <button
-                    className={`w-full mt-4 px-4 py-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-700 text-white' : 'bg-gray-400'}`}
-                    onClick={handleOpenCheckout}
-                    disabled={selectedSeats.length === 0}
-                >
-                    Proceed to Checkout
-                </button>
+                <div className="mt-4">
+                    <div className="flex justify-between font-bold text-lg text-blue-900">
+                        <span>Total:</span>
+                        <span>Rs.{totalPrice}</span>
+                    </div>
+                    <button
+                        className={`w-full mt-4 px-4 py-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-700 text-white' : 'bg-gray-400'}`}
+                        onClick={handleOpenCheckout}
+                        disabled={selectedSeats.length === 0}
+                    >
+                        Proceed to Checkout
+                    </button>
+                </div>
             </div>
+
         </div>
     );
 };

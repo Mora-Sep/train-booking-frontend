@@ -93,7 +93,7 @@ function DEOPortal() {
   }
 
   return (
-    <div className="flex bg-gradient-to-tl from-black via-blue-900 to-black justify-center items-center h-screen">
+    <div className="flex bg-gradient-to-tl from-white via-blue-200 to-white justify-center items-center h-screen">
       <form
         onSubmit={handleSubmitClick}
         className="w-full rounded-lg text-black max-w-sm bg-white p-8 shadow-lg "

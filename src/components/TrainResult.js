@@ -1,11 +1,11 @@
 // TrainResult.js
 import React from "react";
-import { FaTrain } from "react-icons/fa"; // Importing train icon
+import { FaTrain } from "react-icons/fa"; // train icon
 
 const TrainResult = ({ train, onTrainSelect }) => {
     return (
         <div className="bg-white p-6 rounded-md shadow-md">
-            {/* First Row: Origin Code, Train Name with Icon, and Destination Code */}
+
             <div className="flex items-center justify-between ">
                 <span className="text-2xl font-bold text-blue-800">{train.originCode}</span>
 
@@ -17,13 +17,13 @@ const TrainResult = ({ train, onTrainSelect }) => {
                 <span className="text-2xl font-bold text-blue-800">{train.destinationCode}</span>
             </div>
 
-            {/* Second Row: Route Origin and Route Destination */}
+
             <div className="flex justify-between mb-6">
                 <span className="text-blue-900 text-2xl">{train.routeOrigin}</span>
                 <span className="text-blue-900 text-2xl">{train.routeDestination}</span>
             </div>
 
-            {/* Third Row: Origin Name and Destination Name */}
+
             <div className="flex justify-between mb-4">
                 <div className="flex flex-col items-start">
                     <span className="text-lg text-gray-700">From: {train.originName}</span>
@@ -38,14 +38,14 @@ const TrainResult = ({ train, onTrainSelect }) => {
                 </div>
             </div>
             <p className="text-black text-center font-bold">Remaining Seats</p>
-            {/* Fourth Row: Seat Availability */}
+
             <div className="space-y-2 text-center">
                 <p className="text-gray-800">1st Class Seats: {train.seatReservations[0].totalCount - train.seatReservations[0].reservedCount}</p>
                 <p className="text-gray-800">2nd Class Seats: {train.seatReservations[1].totalCount - train.seatReservations[1].reservedCount}</p>
                 <p className="text-gray-800">3rd Class Seats: {train.seatReservations[2].totalCount - train.seatReservations[2].reservedCount}</p>
             </div>
 
-            {/* View Seats Button */}
+
             <div className="flex justify-center mt-4">
                 <button
                     onClick={() => onTrainSelect(train)}
