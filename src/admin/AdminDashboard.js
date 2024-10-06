@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { FaBars, FaUser, FaTrain, FaTrash } from "react-icons/fa"; // Importing icons
+import { FaUser, FaBars, FaTrain, FaTrash } from "react-icons/fa"; // Importing icons
 import { FaBookOpen } from "react-icons/fa6";
+import { FaChartBar } from "react-icons/fa"; // Importing the bar chart icon
 
 const AdminDashboard = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -22,9 +23,8 @@ const AdminDashboard = () => {
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <div
-        className={`bg-gray-800 text-white flex flex-col justify-between shadow-lg transition-all duration-300 ${
-          isCollapsed ? "w-20" : "w-64"
-        }`}
+        className={`bg-gray-800 text-white flex flex-col justify-between shadow-lg transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"
+          }`}
       >
         <div className="flex flex-col">
           <button
@@ -41,10 +41,22 @@ const AdminDashboard = () => {
           )}
 
           <ul
-            className={`space-y-4 p-4 w-full ${
-              isCollapsed ? "items-center" : ""
-            }`}
+            className={`space-y-4 p-4 w-full ${isCollapsed ? "items-center" : ""
+              }`}
           >
+            <li className="w-full">
+              <NavLink
+                to="summery"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center p-3 hover:bg-gray-700 rounded-lg bg-gray-700 transition duration-300"
+                    : "flex items-center p-3 hover:bg-gray-700 rounded-lg transition duration-300"
+                }
+              >
+                <FaChartBar /> {/* Changed icon to bar chart */}
+                {!isCollapsed && <span className="ml-4">Summary</span>} {/* Corrected text to "Summary" */}
+              </NavLink>
+            </li>
             <li className="w-full">
               <NavLink
                 to="user-details"
@@ -104,9 +116,8 @@ const AdminDashboard = () => {
 
         {/* Conditionally hide the logout button when collapsed */}
         <div
-          className={`p-6 transition-all duration-300 ${
-            isCollapsed ? "hidden" : "w-full"
-          }`}
+          className={`p-6 transition-all duration-300 ${isCollapsed ? "hidden" : "w-full"
+            }`}
         >
           <button
             onClick={handleLogout}

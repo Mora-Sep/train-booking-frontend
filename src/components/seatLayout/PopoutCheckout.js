@@ -6,6 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom"; // For redirect
+import Cookies from "js-cookie"; // Import cookie management library
 
 const stripePromise = loadStripe(
   "pk_test_51Q3h2fGgM5IeGXpnCy4JDcSIl2Bsx5KvF80XipMjKXJ3Sg6cRgvfBZQFlVV0iPQDx9X46RpRLIADSk3cMAdp1I5G008R6cV6Pb"
@@ -74,12 +75,61 @@ const PopoutCheckout = ({ selectedSeats, totalPrice, refID, onClose }) => {
     }
   };
 
+  // Function to handle booking cancellation
+  const handleCancelBooking = async () => {
+    const token = Cookies.get("access-token"); // Retrieve token from cookies
+    if (!token) {
+      toast.error("Authentication token is missing. Please log in.");
+      return;
+    }
+
+    try {
+      // Pass bookingRefID as a query parameter in the URL
+      const response = await axios.post(
+        `${BASE_URL}/booking/cancel?bookingRefID=${refID}`,
+        {}, // No body, so we pass an empty object
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Returned Successfully");
+        onClose(); // Close the checkout popout only if the booking is successfully cancelled
+      } else {
+        toast.error("Failed to cancel booking. Please try again.");
+      }
+    } catch (error) {
+      // Handle unauthorized access
+      if (error.response && error.response.status === 401) {
+        toast.error("Unauthorized. Please log in again.");
+      } else {
+        toast.error("Failed to cancel booking. Please try again.");
+      }
+      console.error("Error cancelling booking:", error.response?.data || error.message);
+    }
+  };
+
+
+
+
+
   return (
     <div className="fixed right-0 top-0 w-full md:w-2/5 h-full bg-white shadow-lg z-50 p-6 overflow-y-auto border-l-4 border-blue-500">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-blue-900">Checkout</h2>
-        <button onClick={onClose} className="text-blue-600">
+        <button
+          onClick={() => {
+            handleCancelBooking();
+            onClose();
+          }}
+          className="text-blue-600"
+        >
           <AiOutlineClose size={24} />
         </button>
       </div>

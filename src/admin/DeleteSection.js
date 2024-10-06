@@ -11,6 +11,7 @@ function DeleteSection() {
   const [trains, setTrains] = useState([]);
   const [stations, setStations] = useState([]);
   const [models, setModels] = useState([]);
+  const [activeSection, setActiveSection] = useState("routes"); // New state to track the active section
 
   function formatDuration(durationInMinutes) {
     const hours = Math.floor(durationInMinutes / 60);
@@ -49,13 +50,13 @@ function DeleteSection() {
       });
       // Update the state after deletion
       if (type === "route")
-        setRoutes(routes.filter((route) => route.ID !== id));
+        setRoutes(routes.filter((route) => route.Route_ID !== id));
       if (type === "train")
-        setTrains(trains.filter((train) => train.ID !== id));
+        setTrains(trains.filter((train) => train.Number !== id));
       if (type === "station")
-        setStations(stations.filter((station) => station.ID !== id));
+        setStations(stations.filter((station) => station.Code !== id));
       if (type === "model")
-        setModels(models.filter((model) => model.ID !== id));
+        setModels(models.filter((model) => model.Model_ID !== id));
     } catch (error) {
       console.error("Failed to delete:", error);
     }
@@ -63,40 +64,78 @@ function DeleteSection() {
 
   return (
     <div className="max-w-7xl mx-auto p-4 text-slate-800">
-      <AdminSection
-        title="Routes"
-        items={routes.map((route) => ({
-          ID: route.Route_ID,
-          name: `${route.Origin} - ${route.Destination} (${formatDuration(
-            route.Duration_Minutes
-          )})`,
-        }))}
-        onDelete={(id) => handleDelete(id, "route")}
-      />
-      <AdminSection
-        title="Trains"
-        items={trains.map((train) => ({
-          ID: train.Number,
-          name: train.Name,
-        }))}
-        onDelete={(id) => handleDelete(id, "train")}
-      />
-      <AdminSection
-        title="Stations"
-        items={stations.map((station) => ({
-          ID: station.Code,
-          name: station.Name,
-        }))}
-        onDelete={(id) => handleDelete(id, "station")}
-      />
-      <AdminSection
-        title="Models"
-        items={models.map((model) => ({
-          ID: model.Model_ID,
-          name: model.Name,
-        }))}
-        onDelete={(id) => handleDelete(id, "model")}
-      />
+      {/* Buttons to toggle sections */}
+      <div className="flex space-x-4 mb-6">
+        <button
+          className={`btn ${activeSection === "routes" ? "btn-info" : "btn-outline"}`}
+          onClick={() => setActiveSection("routes")}
+        >
+          Routes
+        </button>
+        <button
+          className={`btn ${activeSection === "trains" ? "btn-info" : "btn-outline"}`}
+          onClick={() => setActiveSection("trains")}
+        >
+          Trains
+        </button>
+        <button
+          className={`btn ${activeSection === "stations" ? "btn-info" : "btn-outline"}`}
+          onClick={() => setActiveSection("stations")}
+        >
+          Stations
+        </button>
+        <button
+          className={`btn ${activeSection === "models" ? "btn-info" : "btn-outline"}`}
+          onClick={() => setActiveSection("models")}
+        >
+          Models
+        </button>
+      </div>
+
+      {/* Conditionally render based on the active section */}
+      {activeSection === "routes" && (
+        <AdminSection
+          title="Routes"
+          items={routes.map((route) => ({
+            ID: route.Route_ID,
+            name: `${route.Origin} - ${route.Destination} (${formatDuration(route.Duration_Minutes)})`,
+          }))}
+          onDelete={(id) => handleDelete(id, "route")}
+        />
+      )}
+
+      {activeSection === "trains" && (
+        <AdminSection
+          title="Trains"
+          items={trains.map((train) => ({
+            ID: train.Number,
+            name: train.Name,
+          }))}
+          onDelete={(id) => handleDelete(id, "train")}
+        />
+      )}
+
+      {activeSection === "stations" && (
+        <AdminSection
+          title="Stations"
+          items={stations.map((station) => ({
+            ID: station.Code,
+            name: station.Name,
+          }))}
+          onDelete={(id) => handleDelete(id, "station")}
+        />
+      )}
+
+      {activeSection === "models" && (
+        <AdminSection
+          title="Models"
+          items={models.map((model) => ({
+            ID: model.Model_ID,
+            name: model.Name,
+          }))}
+          onDelete={(id) => handleDelete(id, "model")}
+        />
+      )}
     </div>
   );
 }
