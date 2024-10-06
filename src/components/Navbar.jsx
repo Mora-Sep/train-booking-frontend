@@ -81,12 +81,12 @@ const Navbar = ({ profilePic }) => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-28 rounded-full hover:scale-110">
-                <img alt="User Profile" src={profilePic || "/Main/image.png"} />
+                <img alt="User Profile" src={profilePic || "/Landing Page/image.png"} />
               </div>
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-blue-100 text-black rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-blue-700 font-semibold rounded-box z-[1] text-white mt-3 w-52 p-2 "
             >
               <>
                 <li>
