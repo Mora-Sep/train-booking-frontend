@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
-const OrderHistory = () => {
+const OrderHistory_v1 = () => {
   const [tickets, setTickets] = useState([]);
   const [expandedRows, setExpandedRows] = useState([]);
 
@@ -28,7 +28,9 @@ const OrderHistory = () => {
         }
         setTickets(response.data);
       } catch (error) {
-        toast.error("No tickets found", { className: "custom-toast" });
+        toast.error("No tickets found, Please make a booking!", {
+          className: "custom-toast",
+        });
         console.error("Error fetching tickets:", error);
       }
     };
@@ -119,4 +121,4 @@ const OrderHistory = () => {
   );
 };
 
-export default OrderHistory;
+export default OrderHistory_v1;

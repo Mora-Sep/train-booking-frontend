@@ -3,17 +3,17 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 
-const PendingPayments = () => {
-  const [payments, setPayments] = useState([]);
+const BookingHistory = () => {
+  const [bookings, setBookings] = useState([]);
   const [expandedRows, setExpandedRows] = useState([]);
 
   const baseURL = process.env.REACT_APP_BACKEND_API_URL;
 
   const token = Cookies.get("access-token");
 
-  // Fetch pending payments from API
+  // Fetch pending bookings from API
   useEffect(() => {
-    const fetchPayments = async () => {
+    const fetchBookings = async () => {
       try {
         const response = await axios.get(
           `${baseURL}/booking/user/pending/payments`,
@@ -23,21 +23,21 @@ const PendingPayments = () => {
             },
           }
         );
-        if (response.data.length === 0) {
-          toast.error("No pending payments found", {
+        if (!response.data) {
+          toast.error("No booked tickets found", {
             className: "custom-toast",
           });
         }
-        setPayments(response.data);
+        setBookings(response.data);
       } catch (error) {
-        toast.error("Error fetching pending payments", {
+        toast.error("Error fetching booking history", {
           className: "custom-toast",
         });
-        console.error("Error fetching payments:", error);
+        console.error("Error fetching bookings:", error);
       }
     };
 
-    fetchPayments();
+    fetchBookings();
   }, [baseURL, token]);
 
   // Toggle row expansion
@@ -50,77 +50,59 @@ const PendingPayments = () => {
     }
   };
 
-  // Handle payment action for a specific payment
-  const handlePay = async (bookingRefID) => {
-    try {
-      // Call your API or payment logic here
-      await axios.post(
-        `${baseURL}/booking/user/pay`,
-        { bookingRefID }, // Send the booking reference ID to the payment endpoint
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      toast.success(`Payment successful for booking: ${bookingRefID}`);
-
-      // Optionally refresh the payment list to remove the paid item
-      setPayments(
-        payments.filter((payment) => payment.bookingRefID !== bookingRefID)
-      );
-    } catch (error) {
-      toast.error("Error processing payment", { className: "custom-toast" });
-      console.error("Error processing payment:", error);
-    }
-  };
+  // Handle refund action for a specific booking
+  const handleRequestRefund = async (bookingRefID) => {};
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-semibold mb-4 text-blue-600">
-        Pending Payments
+        Your Booking History
       </h1>
-      {payments.length === 0 ? (
-        <p className="text-center">No pending payments found</p>
+      {bookings?.length === 0 ? (
+        <p className="text-center">No tickets booked yet.</p>
       ) : (
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
             <tr>
               <th className="py-2 px-4 border-b">Booking Reference ID</th>
+              <th className="py-2 px-4 border-b">From</th>
+              <th className="py-2 px-4 border-b">To</th>
               <th className="py-2 px-4 border-b">Price</th>
-              <th className="py-2 px-4 border-b">Trip ID</th>
               <th className="py-2 px-4 border-b">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {payments.map((payment) => (
-              <React.Fragment key={payment.bookingRefID}>
+            {bookings?.map((booking) => (
+              <React.Fragment key={booking.bookingRefID}>
                 <tr
-                  onClick={() => toggleRow(payment.bookingRefID)}
+                  onClick={() => toggleRow(booking.bookingRefID)}
                   className="cursor-pointer hover:bg-gray-100"
                 >
                   <td className="text-center py-2 px-4 border-b">
-                    {payment.bookingRefID}
+                    {booking.bookingRefID}
                   </td>
                   <td className="text-center py-2 px-4 border-b">
-                    {payment.price}
+                    {booking.from}
                   </td>
                   <td className="text-center py-2 px-4 border-b">
-                    {payment.tripID}
+                    {booking.to}
+                  </td>
+                  <td className="text-center py-2 px-4 border-b">
+                    {booking.price}
                   </td>
                   <td className="text-center py-2 px-4 border-b">
                     <button
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
                       onClick={(e) => {
                         e.stopPropagation(); // Prevent row expansion on button click
-                        handlePay(payment.bookingRefID);
+                        handleRequestRefund(booking.bookingRefID);
                       }}
                     >
-                      Pay
+                      Request Refund
                     </button>
                   </td>
                 </tr>
-                {expandedRows.includes(payment.bookingRefID) && (
+                {expandedRows.includes(booking.bookingRefID) && (
                   <tr>
                     <td colSpan="4" className="py-2 px-4 border-b bg-gray-50">
                       <div>
@@ -128,7 +110,7 @@ const PendingPayments = () => {
                           <strong>Passengers:</strong>
                         </p>
                         <ul>
-                          {payment.passengers.map((passenger, index) => (
+                          {booking.passengers.map((passenger, index) => (
                             <li key={index}>
                               {passenger.firstName} {passenger.lastName} - Seat:{" "}
                               {passenger.seat} (
@@ -149,4 +131,4 @@ const PendingPayments = () => {
   );
 };
 
-export default PendingPayments;
+export default BookingHistory;

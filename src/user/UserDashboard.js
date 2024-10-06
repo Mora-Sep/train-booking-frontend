@@ -21,14 +21,10 @@ const items = [
   {
     key: "2",
     icon: <ContainerOutlined />,
-    label: <Link to="/user/order-history">Order History</Link>,
+    label: <Link to="/user/booking-history">Booking History</Link>,
   },
   {
     key: "3",
-    icon: <ContainerOutlined />,
-    label: <Link to="/user/pending-payments">Pending Payments</Link>,
-  }, {
-    key: "4",
     icon: <DesktopOutlined />,
     label: <Link to="/user/complain">Complain</Link>,
   },
