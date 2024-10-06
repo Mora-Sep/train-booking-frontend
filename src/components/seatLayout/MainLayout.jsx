@@ -241,6 +241,7 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
                         </li>
                     ))}
                 </ul>
+                <h2 className='text-red-600 mt-5 text-xl font-semibold '> Price : Rs.{totalPrice}</h2>
                 <button
                     className={`mt-4 px-4 py-2 rounded ${selectedSeats.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 text-white'}`}
                     disabled={selectedSeats.length === 0}
