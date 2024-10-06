@@ -49,7 +49,7 @@ const Navbar = ({ profilePic }) => {
             </Link>
             {/* Bookings with TicketIcon */}
             <Link
-              to="/user/order-history"
+              to="/user/booking-history"
               className="btn btn-outline mx-4 text-lg hover:text-blue-700 font-semibold text-white flex items-center"
             >
               <TicketIcon className="h-5 w-5 mr-1" /> Bookings
