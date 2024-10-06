@@ -17,20 +17,16 @@ const items = [
     icon: <UserOutlined />,
     label: <Link to="/user/user-details">User Details</Link>,
   },
+
   {
     key: "2",
-    icon: <DesktopOutlined />,
-    label: <Link to="/user/complain">Complain</Link>,
+    icon: <ContainerOutlined />,
+    label: <Link to="/user/booking-history">Booking History</Link>,
   },
   {
     key: "3",
-    icon: <ContainerOutlined />,
-    label: <Link to="/user/order-history">Order History</Link>,
-  },
-  {
-    key: "4",
-    icon: <ContainerOutlined />,
-    label: <Link to="/user/pending-payments">Pending Payments</Link>,
+    icon: <DesktopOutlined />,
+    label: <Link to="/user/complain">Complain</Link>,
   },
   // Additional menu items can be added here
 ];

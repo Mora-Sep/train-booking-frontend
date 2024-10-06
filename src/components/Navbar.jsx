@@ -2,6 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { UserGlobalState } from "./Layout/UserGlobalState";
 import { useNavigate } from "react-router-dom";
+// Import Heroicons
+import {
+  MagnifyingGlassIcon,
+  TicketIcon,
+  UserPlusIcon,
+  ArrowRightOnRectangleIcon,
+} from "@heroicons/react/24/outline";
 
 const Navbar = ({ profilePic }) => {
   const { currentUserData } = UserGlobalState();
@@ -22,46 +29,47 @@ const Navbar = ({ profilePic }) => {
   };
 
   return (
-    <div className="navbar bg-gradient-to-r from-blue-600 to-purple-800 h-18 rounded-md">
+    <div className="navbar bg-gradient-to-r from-blue-800 to-purple-800 h-18 ">
       <div className="flex-1">
         <Link to="/" className="">
-          <img
-            src="/Main/logo-no-background.png"
-            alt="logo"
-            width={120}
-            height={50}
-          />
+          <h1 className="text-3xl ml-4 font-semibold font-serif text-white">
+            On Train
+          </h1>
         </Link>
       </div>
       <div className="flex-none">
         {currentUserData?.username ? (
           <>
+            {/* Search with MagnifyingGlassIcon */}
             <Link
               to="/booking"
-              className="px-4 text-lg font-semibold hover:text-blue-700 text-white"
+              className="btn btn-outline px-4 text-lg font-semibold hover:text-blue-700 text-white flex items-center"
             >
-              Search for a Train
+              <MagnifyingGlassIcon className="h-5 w-5 mr-1" /> Search
             </Link>
+            {/* Bookings with TicketIcon */}
             <Link
               to="/user/order-history"
-              className="pl-4 pr-20 text-lg hover:text-blue-700 font-semibold text-white"
+              className="btn btn-outline mx-4 text-lg hover:text-blue-700 font-semibold text-white flex items-center"
             >
-              Bookings
+              <TicketIcon className="h-5 w-5 mr-1" /> Bookings
             </Link>
           </>
         ) : (
           <>
+            {/* Sign Up with UserPlusIcon */}
             <button
               onClick={handleSignin}
-              className="px-4 text-lg font-semibold hover:text-blue-700 text-white"
+              className="btn btn-outline px-4 text-lg font-semibold hover:text-blue-700 text-white flex items-center"
             >
-              Sign Up
+              <UserPlusIcon className="h-5 w-5 mr-1" /> Sign up
             </button>
+            {/* Login with ArrowRightOnRectangleIcon */}
             <button
               onClick={handleLogin}
-              className="pl-4 pr-20 text-lg hover:text-blue-700 font-semibold text-white"
+              className="btn  btn-success pl-4 mx-3 mr-20 text-lg hover:text-blue-700 font-semibold text-white flex items-center"
             >
-              Login
+              <ArrowRightOnRectangleIcon className="h-5 w-5 mr-1" /> Sign in
             </button>
           </>
         )}

@@ -45,11 +45,12 @@ const Booking = () => {
                 console.error("There was an error fetching the trips!", error);
             });
 
-        if (tripData.length > 0) {
+        if (tripData && tripData.length > 0) {
             setFilteredTrains(tripData);
             setShowResults(true);
         } else {
-            setShowResults(false);
+            setFilteredTrains([]);
+            setShowResults(true); // Set true to display the message even if no results
         }
     };
 
@@ -63,7 +64,7 @@ const Booking = () => {
     };
 
     return (
-        <div className="flex h-screen bg-gray-100">
+        <div className="flex h-screen bg-gray-200">
             {/* Left Section: Search Form */}
             <div className="w-1/5 flex flex-col justify-center items-center p-8 bg-white shadow-lg">
                 <h1 className="text-5xl font-bold text-blue-800 mb-20">Search for Trains</h1>
@@ -111,16 +112,16 @@ const Booking = () => {
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-indigo-500 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-600"
+                            className="w-full bg-indigo-500 text-lg text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-600"
                         >
-                            Search for Trains
+                            Search
                         </button>
                     </div>
                 </form>
             </div>
 
             {/* Right Section: Seat Layout, Search Results, or Initial Image */}
-            <div className="w-4/5 p-8">
+            <div className="w-4/5 p-8 overflow-y-auto">
                 {selectedTrain ? (
                     <div>
                         <button

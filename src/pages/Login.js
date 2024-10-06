@@ -127,9 +127,9 @@ const Login = () => {
       </div>
 
       {/* Right Column */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-gray-100 p-6 lg:p-12">
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-blue-500 p-6 lg:p-12">
         <div className="max-w-lg w-full bg-white p-8 rounded-lg shadow-md">
-          <h2 className="text-2xl text-black font-bold mb-6 text-center">
+          <h2 className="text-3xl text-black font-bold mb-6 text-center">
             Login to Your Account
           </h2>
           <form className="space-y-4 text-black" onSubmit={handleSubmitClick}>

@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import FirstClassSeatLayout from './FirstClassSeatLayout';
 import axios from 'axios';
+import { FaTrash } from 'react-icons/fa';
 import SecondClassSeatLayout from './SecondClassSeatLayout';
 import ThirdClassSeatLayout from './ThirdClassSeatLayout';
 import PopoutCheckout from './PopoutCheckout';
 import { UserGlobalState } from '../Layout/UserGlobalState'; // Use global state
 import Cookies from 'js-cookie';
 
+
+
 const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destinationName, allData }) => {
     const [currentClass, setCurrentClass] = useState(1);
     const [currentCart, setCurrentCart] = useState(1);
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [seatData, setSeatData] = useState({});
-    const [showCheckout, setShowCheckout] = useState(false); // state for check popout is visibel or not
+    const [showCheckout, setShowCheckout] = useState(false);
     const { currentUserData } = UserGlobalState();
-
     const [checkoutRefID, setCheckoutRefID] = useState(null);
 
     // Prices for each class
@@ -27,12 +29,11 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
     const trainID = allData.ID;
     const BASE_URL = process.env.REACT_APP_BACKEND_API_URL;
 
-    // Fetch booked seats by api
     useEffect(() => {
         const fetchBookedSeats = async () => {
             try {
                 const response = await fetch(`${BASE_URL}/booking/get/seats?from=${originName}&to=${destinationName}&frequency=2024-09-24&id=${trainID}`, {
-                    credentials: 'include' // Include credentials to send cookies
+                    credentials: 'include'
                 });
                 if (!response.ok) throw new Error('Failed to fetch booked seats');
                 const data = await response.json();
@@ -139,7 +140,7 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
     const handleOpenCheckout = async () => {
         console.log('Proceeding to checkout...');
 
-        const token = Cookies.get("access-token"); // Get the token from cookies
+        const token = Cookies.get("access-token");
         console.log('Token:', token);
 
         const passengers = selectedSeats.map(seat => ({
@@ -147,7 +148,7 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
             class: seat.class === 1 ? 'F' : seat.class === 2 ? 'S' : 'T',
             firstName: currentUserData.firstName,
             lastName: currentUserData.lastName,
-            isAdult: true, // assume all the seats bookings are adult
+            isAdult: true,
         }));
 
         const bookingData = {
@@ -157,7 +158,7 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
             passengers
         };
 
-        console.log('Booking Data:', bookingData); // Log booking data
+        console.log('Booking Data:', bookingData);
 
         try {
             const response = await axios.post(`${BASE_URL}/booking/user/create/booking`, bookingData, {
@@ -171,20 +172,19 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
             console.log('Booking success:', response.data);
             const refID = response.data.refID;
             setShowCheckout(true);
-            setCheckoutRefID(refID); // save ref id to pass to checkout popup
+            setCheckoutRefID(refID);
         } catch (error) {
             console.error('Error creating booking:', error.response?.data || error.message);
         }
     };
 
-
-
-
-
+    const handleRemoveSeat = (seatToRemove) => {
+        setSelectedSeats(prevSeats => prevSeats.filter(seat => seat.cart !== seatToRemove.cart || seat.number !== seatToRemove.number || seat.class !== seatToRemove.class));
+    };
 
     return (
         <div className="flex">
-            <div className="flex flex-col w-4/5 p-6 bg-white rounded-lg shadow-lg">
+            <div className="flex flex-col w-4/5 pt-6 p-2 mr-2 bg-white rounded-lg shadow-lg">
                 <div className='pb-3'>
                     <div className='flex flex-row justify-center items-center'>
                         <h2 className="text-4xl font-bold text-blue-900 mb-3">{TrainName}</h2>
@@ -221,50 +221,34 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
                 <PopoutCheckout
                     selectedSeats={selectedSeats}
                     totalPrice={totalPrice}
-                    refID={checkoutRefID} // Pass refID here
+                    refID={checkoutRefID}
                     onClose={() => setShowCheckout(false)}
                 />
             )}
 
-            <div className="w-1/5 p-6 ml-7 bg-white rounded-lg shadow-lg shadow-blue-300">
-                <h3 className="text-2xl font-semibold text-blue-900 mb-4 text-center">Selected Seats</h3>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-center text-blue-900">
-                        <thead>
-                            <tr>
-                                <th className="px-4 py-2 border-b">Class</th>
-                                <th className="px-4 py-2 border-b">Cart</th>
-                                <th className="px-4 py-2 border-b">Seat</th>
-                                <th className="px-4 py-2 border-b">Price (Rs.)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {selectedSeats.map((seat, index) => (
-                                <tr key={index} className="text-blue-700">
-                                    <td className="px-4 py-2 border-b">{seat.class}</td>
-                                    <td className="px-4 py-2 border-b">{seat.cart}</td>
-                                    <td className="px-4 py-2 border-b">{seat.number}</td>
-                                    <td className="px-4 py-2 border-b">Rs.{classPrices[seat.class]}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-                <div className="mt-4">
-                    <div className="flex justify-between font-bold text-lg text-blue-900">
-                        <span>Total:</span>
-                        <span>Rs.{totalPrice}</span>
-                    </div>
-                    <button
-                        className={`w-full mt-4 px-4 py-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-700 text-white' : 'bg-gray-400'}`}
-                        onClick={handleOpenCheckout}
-                        disabled={selectedSeats.length === 0}
-                    >
-                        Proceed to Checkout
-                    </button>
-                </div>
+            <div className="flex flex-col w-1/5 p-4 bg-gray-100 rounded-lg shadow-lg">
+                <h3 className="text-lg font-bold mb-2">Selected Seats</h3>
+                <ul className="list-none">
+                    {selectedSeats.map((seat, index) => (
+                        <li key={index} className="flex justify-between items-center bg-white p-2 mb-1 rounded shadow">
+                            <span>Class: {seat.class} Cart: {seat.cart} Seat: {seat.number}</span>
+                            <button
+                                className="text-red-500 hover:text-red-700"
+                                onClick={() => handleRemoveSeat(seat)}
+                            >
+                                <FaTrash /> {/* You can replace this with an icon */}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+                <button
+                    className={`mt-4 px-4 py-2 rounded ${selectedSeats.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700 text-white'}`}
+                    disabled={selectedSeats.length === 0}
+                    onClick={handleOpenCheckout}
+                >
+                    Proceed to Checkout
+                </button>
             </div>
-
         </div>
     );
 };

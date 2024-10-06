@@ -6,11 +6,13 @@ import UserDetails from "../../admin/UserDetails";
 import ActDctTrip from "../../admin/ActDctTrip";
 import DeleteSection from "../../admin/DeleteSection";
 import Reports from "../../admin/Reports";
+import Summery from "../../admin/Summery";
 
 const AdminRoutes = () => (
   <Routes>
     <Route path="/" element={<AdminDashboard />}>
       <Route index element={<UserDetails />} />
+      <Route path="summery" element={<Summery />} />
       <Route path="user-details" element={<UserDetails />} />
       <Route path="activate-trip" element={<ActDctTrip />} />
       <Route path="reports" element={<Reports />} />
