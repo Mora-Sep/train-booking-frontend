@@ -231,7 +231,7 @@ const MainLayout = ({ TrainName, departureTime, arrivalTime, originName, destina
                 <ul className="list-none">
                     {selectedSeats.map((seat, index) => (
                         <li key={index} className="flex justify-between items-center bg-white p-2 mb-1 rounded shadow">
-                            <span>Class: {seat.class} Cart: {seat.cart} Seat: {seat.number}</span>
+                            <span>Class {seat.class} Seat {seat.number}  <p className='text-red-600'>Rs {classPrices[seat.class]}</p></span>
                             <button
                                 className="text-red-500 hover:text-red-700"
                                 onClick={() => handleRemoveSeat(seat)}
