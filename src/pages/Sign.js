@@ -84,8 +84,8 @@ const Sign = () => {
             // Parse the decoded payload
             const payload = JSON.parse(decodedPayload);
             setCurrentUserData(payload);
+            setAuthForm("user");
             setBookingStep("seatReserve");
-            console.log("User registered successfully");
             navigate("/");
           } else {
             throw new Error("Something went wrong");
@@ -216,7 +216,10 @@ const Sign = () => {
           <h2 className="text-3xl text-black font-bold mb-8 text-center">
             Create Your Account
           </h2>
-          <form className="space-y-4 text-black m-2 p-2" onSubmit={handleSubmit}>
+          <form
+            className="space-y-4 text-black m-2 p-2"
+            onSubmit={handleSubmit}
+          >
             {/* First Name */}
             <div>
               <label
@@ -257,7 +260,9 @@ const Sign = () => {
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 required
               />
-              {lastNameError && <div className="errorText">{lastNameError}</div>}
+              {lastNameError && (
+                <div className="errorText">{lastNameError}</div>
+              )}
             </div>
             {/* Username */}
             <div>
@@ -277,7 +282,9 @@ const Sign = () => {
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 required
               />
-              {usernameError && <div className="errorText">{usernameError}</div>}
+              {usernameError && (
+                <div className="errorText">{usernameError}</div>
+              )}
             </div>
             {/* Password */}
             <div>
@@ -297,7 +304,9 @@ const Sign = () => {
                 className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 required
               />
-              {passwordError && <div className="errorText">{passwordError}</div>}
+              {passwordError && (
+                <div className="errorText">{passwordError}</div>
+              )}
             </div>
             {/* Confirm Password */}
             <div>
