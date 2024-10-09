@@ -15,6 +15,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 function Reports() {
+  const [trainData, setTrainData] = useState(null);
   const [timeBasedData, setTimeBasedData] = useState(null);
   const [currentStats, setCurrentStats] = useState(null);
   const [startDate, setStartDate] = useState("");
@@ -23,21 +24,6 @@ function Reports() {
 
   const baseUrl = process.env.REACT_APP_BACKEND_API_URL;
   const token = Cookies.get("access-token");
-
-  const trainData = [
-    { name: "Podi Menike", Number: 1005, Model: 9, revenue: 2500, trips: 15 },
-    { name: "Udarata Menike", Number: 1015, Model: 9, revenue: 3000, trips: 12 },
-    { name: "Badulla night express", Number: 1045, Model: 2, revenue: 1500, trips: 8 },
-    { name: "Uttara Devi", Number: 4017, Model: 8, revenue: 4000, trips: 20 },
-    { name: "Yal Devi", Number: 4077, Model: 1, revenue: 2000, trips: 10 },
-    { name: "Rajarata Rejini", Number: 4085, Model: 6, revenue: 3500, trips: 15 },
-    { name: "Udaya Devi", Number: 6011, Model: 8, revenue: 2700, trips: 18 },
-    { name: "Meena Gaya", Number: 6079, Model: 7, revenue: 2200, trips: 14 },
-    { name: "Galu Kumari", Number: 8056, Model: 8, revenue: 2800, trips: 16 },
-    { name: "Ruhunu Kumari", Number: 8058, Model: 8, revenue: 2600, trips: 17 },
-    { name: "Sagarika", Number: 8096, Model: 7, revenue: 2400, trips: 13 },
-    { name: "Samudra Devi", Number: 8760, Model: 8, revenue: 3200, trips: 19 },
-  ];
 
   useEffect(() => {
     const fetchCurrentStats = async () => {
@@ -53,6 +39,20 @@ function Reports() {
       }
     };
 
+    const fetchTrainData = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}/admin/reports/trains`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setTrainData(response.data);
+      } catch (error) {
+        console.error("Error fetching train data:", error);
+      }
+    };
+
+    fetchTrainData();
     fetchCurrentStats();
   }, [baseUrl, token]);
 
@@ -97,13 +97,21 @@ function Reports() {
     // Add revenue data to PDF
     pdf.text("Revenue Data", 20, 90);
     trainData.forEach((train, index) => {
-      pdf.text(`Train: ${train.name}, Revenue: $${train.revenue}`, 20, 100 + index * 10);
+      pdf.text(
+        `Train: ${train.name}, Revenue: $${train.revenue}`,
+        20,
+        100 + index * 10
+      );
     });
 
     // Add trips data to PDF
     pdf.text("Trips Data", 20, 100 + trainData.length * 10 + 10);
     trainData.forEach((train, index) => {
-      pdf.text(`Train: ${train.name}, Trips: ${train.trips}`, 20, 110 + trainData.length * 10 + index * 10);
+      pdf.text(
+        `Train: ${train.name}, Trips: ${train.trips}`,
+        20,
+        110 + trainData.length * 10 + index * 10
+      );
     });
 
     pdf.save("admin_report.pdf");
