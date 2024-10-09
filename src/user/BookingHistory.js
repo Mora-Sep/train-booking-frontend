@@ -16,7 +16,7 @@ const BookingHistory = () => {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          `${baseURL}/booking/user/pending/payments`,
+          `${baseURL}/booking/user/payment-history`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

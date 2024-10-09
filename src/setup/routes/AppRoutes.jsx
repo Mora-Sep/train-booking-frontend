@@ -17,11 +17,12 @@ import TrainSeatLayout from "../../components/seatLayout/TrainSeatLayout";
 import Unauthorized from "../../pages/Unauthorized";
 import AdminPortal from "../../pages/AdminPortal";
 import DEOPortal from "./../../pages/DEOPortal";
-import Payment from "../../pages/Payment";
 import MainSeatLayout from "../../components/seatLayout/MainLayout";
 import Checkout from "../../pages/Checkout";
 import PWReset from "../../pages/PWReset";
 import ForgotPassword from "../../pages/ForgotPassword";
+import PaymentSuccess from "../../pages/PaymentSuccess";
+import PaymentCancel from "../../pages/PaymentCancel";
 
 const AppRoutes = () => {
   return (
@@ -35,11 +36,12 @@ const AppRoutes = () => {
       <Route path="/admin-portal" element={<AdminPortal />} />
       <Route path="/deo-portal" element={<DEOPortal />} />
       <Route path="/seat" element={<TrainSeatLayout />} />
-      <Route path="/checkout" element={<Payment />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="/main-seat-layout" element={<MainSeatLayout />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<PWReset />} />
+      <Route path="/payment-success" element={<PaymentSuccess />} />
+      <Route path="/payment-cancel" element={<PaymentCancel />} />
 
       {/* Nested routes */}
       <Route
