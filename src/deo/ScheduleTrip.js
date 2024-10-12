@@ -34,7 +34,7 @@ function ScheduleTrip() {
     routeID: "",
     trainCode: "",
     departureTime: "",
-    frequency: "",
+    date: "",
   });
 
   const [routes, setRoutes] = useState([]);
@@ -90,7 +90,7 @@ function ScheduleTrip() {
         routeID: "",
         trainCode: "",
         departureTime: "",
-        frequency: "",
+        date: "",
       });
       setStationDetails({ ...stationDetails, tripID: response.data.tripID });
       setIsScheduled(true);
@@ -127,10 +127,15 @@ function ScheduleTrip() {
         <div className="flex flex-row justify-between mb-8">
           <div className="w-1/2  mx-2 mb-6">
             <div className="p-6 bg-slate-100 shadow-md rounded-lg">
-              <h2 className="text-2xl text-black font-bold mb-4">Schedule a Trip</h2>
+              <h2 className="text-2xl text-black font-bold mb-4">
+                Schedule a Trip
+              </h2>
               <form onSubmit={handleSubmitTrip}>
                 <div className="mb-4">
-                  <label htmlFor="routeID" className="block text-gray-700 font-medium mb-2">
+                  <label
+                    htmlFor="routeID"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
                     Route ID
                   </label>
                   <input
@@ -145,7 +150,10 @@ function ScheduleTrip() {
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="trainCode" className="block text-gray-700 font-medium mb-2">
+                  <label
+                    htmlFor="trainCode"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
                     Train Code
                   </label>
                   <input
@@ -160,7 +168,10 @@ function ScheduleTrip() {
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="departureTime" className="block text-gray-700 font-medium mb-2">
+                  <label
+                    htmlFor="departureTime"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
                     Departure Time
                   </label>
                   <input
@@ -175,23 +186,22 @@ function ScheduleTrip() {
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="frequency" className="block text-gray-700 font-medium mb-2">
-                    Frequency
+                  <label
+                    htmlFor="date"
+                    className="block text-gray-700 font-medium mb-2"
+                  >
+                    Date
                   </label>
-                  <select
-                    id="frequency"
-                    name="frequency"
-                    value={tripDetails.frequency}
+                  <input
+                    id="date"
+                    type="date"
+                    name="date"
+                    value={tripDetails.date}
                     onChange={handleChangeTrip}
                     className="w-full p-2 border text-slate-800 border-gray-300 rounded-md"
                     disabled={isScheduled}
                     required
-                  >
-                    <option value="">Select Frequency</option>
-                    <option value="weekdays">Weekdays</option>
-                    <option value="weekends">Weekends</option>
-                    <option value="daily">Daily</option>
-                  </select>
+                  />
                 </div>
                 <button
                   type="submit"
@@ -215,15 +225,23 @@ function ScheduleTrip() {
 
           <div className="w-1/2  mx-2 mb-6">
             <div className="p-6 bg-slate-100 shadow-md rounded-lg">
-              <h2 className="text-2xl text-black font-bold mb-4">Add stations for the scheduled trip</h2>
+              <h2 className="text-2xl text-black font-bold mb-4">
+                Add stations for the scheduled trip
+              </h2>
               <form onSubmit={handleSubmitStation}>
                 <div className="mb-6">
-                  <label htmlFor="tripID" className="block text-gray-700 font-medium mb-4">
+                  <label
+                    htmlFor="tripID"
+                    className="block text-gray-700 font-medium mb-4"
+                  >
                     Scheduled Trip ID : {stationDetails.tripID}
                   </label>
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="code" className="block text-gray-700 font-medium mb-4">
+                  <label
+                    htmlFor="code"
+                    className="block text-gray-700 font-medium mb-4"
+                  >
                     Station Code
                   </label>
                   <input
@@ -238,7 +256,10 @@ function ScheduleTrip() {
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="sequence" className="block text-gray-700 font-medium mb-4">
+                  <label
+                    htmlFor="sequence"
+                    className="block text-gray-700 font-medium mb-4"
+                  >
                     Sequence Number
                   </label>
                   <input
@@ -277,7 +298,9 @@ function ScheduleTrip() {
         <div className="flex flex-col mb-8">
           <h2 className="text-2xl text-black font-bold mb-4">Train Table</h2>
           <TrainTable trains={trains} />
-          <h2 className="text-2xl text-black font-bold mb-4 mt-6">Route Table</h2>
+          <h2 className="text-2xl text-black font-bold mb-4 mt-6">
+            Route Table
+          </h2>
           <RouteTable routes={routes} />
         </div>
       </div>
