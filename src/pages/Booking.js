@@ -144,6 +144,7 @@ const Booking = () => {
               arrivalTime={selectedTrain.arrivalDateAndTime}
               originName={selectedTrain.originName}
               destinationName={selectedTrain.destinationName}
+              date={selectedDate.toISOString().split("T")[0]}
               allData={selectedTrain}
               onBack={handleBackToSearch}
             />
