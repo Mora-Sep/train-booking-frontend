@@ -14,6 +14,7 @@ const MainLayout = ({
   arrivalTime,
   originName,
   destinationName,
+  date,
   allData,
 }) => {
   const [currentClass, setCurrentClass] = useState(1);
@@ -38,7 +39,7 @@ const MainLayout = ({
     const fetchBookedSeats = async () => {
       try {
         const response = await fetch(
-          `${BASE_URL}/booking/get/seats?from=${originName}&to=${destinationName}&date=2024-09-24&id=${trainID}`,
+          `${BASE_URL}/booking/get/seats?from=${originName}&to=${destinationName}&date=${date}&id=${trainID}`,
           {
             credentials: "include",
           }
