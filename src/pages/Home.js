@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typewriter } from "react-simple-typewriter";
 import { Link } from "react-router-dom";
 import { UserGlobalState } from "../components/Layout/UserGlobalState";
+import axios from "axios";
 
 const Home = () => {
+  const BASE_URL = process.env.REACT_APP_BACKEND_API_URL;
   const { currentUserData } = UserGlobalState();
+
+  useEffect(() => {
+    async function fetchItems() {
+      await axios.get(`${BASE_URL}/get/trains`);
+      await axios.get(`${BASE_URL}/get/stations`);
+      await axios.get(`${BASE_URL}/get/models`);
+    }
+
+    fetchItems();
+  }, [BASE_URL]);
 
   return (
     <div
