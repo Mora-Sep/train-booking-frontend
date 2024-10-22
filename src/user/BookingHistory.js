@@ -51,7 +51,31 @@ const BookingHistory = () => {
   };
 
   // Handle refund action for a specific booking
-  const handleRequestRefund = async (bookingRefID) => {};
+  const handleRequestRefund = async (bookingRefID) => {
+    try {
+      const response = await axios.post(
+        `${baseURL}/booking/cancel?bookingRefID=${bookingRefID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data) {
+        toast.success("Booking Canceled successfully", {
+          className: "custom-toast",
+        });
+        setBookings(
+          bookings.filter((booking) => booking.bookingRefID !== bookingRefID)
+        );
+      }
+    } catch (error) {
+      toast.error("Error Canceling booking", {
+        className: "custom-toast",
+      });
+      console.error("Error Canceling booking", error);
+    }
+  };
 
   return (
     <div className="p-4">
@@ -98,7 +122,7 @@ const BookingHistory = () => {
                         handleRequestRefund(booking.bookingRefID);
                       }}
                     >
-                      Request Refund
+                      Cancel Booking
                     </button>
                   </td>
                 </tr>
@@ -112,9 +136,8 @@ const BookingHistory = () => {
                         <ul>
                           {booking.passengers.map((passenger, index) => (
                             <li key={index}>
-                              {passenger.firstName} {passenger.lastName} - Seat:{" "}
-                              {passenger.seat} (
-                              {passenger.isAdult ? "Adult" : "Child"})
+                              Seat: {passenger.seat} - Class: {passenger.class}{" "}
+                              ({passenger.isAdult ? "Adult" : "Child"})
                             </li>
                           ))}
                         </ul>
