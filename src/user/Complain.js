@@ -62,7 +62,7 @@ const Complain = () => {
     };
 
     return (
-        <div className="">
+        <div className="p-6">
             <h1 className="text-2xl font-semibold text-blue-600 mb-4">Submit Your Complain</h1>
             {message && <p className="mb-4 text-green-600">{message}</p>}
             <form onSubmit={handleSubmit} className="space-y-4">
