@@ -23,8 +23,9 @@ const AdminDashboard = () => {
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <div
-        className={`bg-gray-800 text-white flex flex-col justify-between shadow-lg transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"
-          }`}
+        className={`bg-gray-800 text-white flex flex-col justify-between shadow-lg transition-all duration-300 ${
+          isCollapsed ? "w-20" : "w-64"
+        }`}
       >
         <div className="flex flex-col">
           <button
@@ -41,8 +42,9 @@ const AdminDashboard = () => {
           )}
 
           <ul
-            className={`space-y-4 p-4 w-full ${isCollapsed ? "items-center" : ""
-              }`}
+            className={`space-y-4 p-4 w-full ${
+              isCollapsed ? "items-center" : ""
+            }`}
           >
             <li className="w-full">
               <NavLink
@@ -54,7 +56,8 @@ const AdminDashboard = () => {
                 }
               >
                 <FaChartBar /> {/* Changed icon to bar chart */}
-                {!isCollapsed && <span className="ml-4">Summary</span>} {/* Corrected text to "Summary" */}
+                {!isCollapsed && <span className="ml-4">Summary</span>}{" "}
+                {/* Corrected text to "Summary" */}
               </NavLink>
             </li>
             <li className="w-full">
@@ -68,6 +71,22 @@ const AdminDashboard = () => {
               >
                 <FaUser />
                 {!isCollapsed && <span className="ml-4">User Details</span>}
+              </NavLink>
+            </li>
+
+            <li className="w-full">
+              <NavLink
+                to="register-staff"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center p-3 hover:bg-gray-700 rounded-lg bg-gray-700 transition duration-300"
+                    : "flex items-center p-3 hover:bg-gray-700 rounded-lg transition duration-300"
+                }
+              >
+                <FaUser />
+                {!isCollapsed && (
+                  <span className="ml-4">Register New Staff</span>
+                )}
               </NavLink>
             </li>
             <li className="w-full">
@@ -116,8 +135,9 @@ const AdminDashboard = () => {
 
         {/* Conditionally hide the logout button when collapsed */}
         <div
-          className={`p-6 transition-all duration-300 ${isCollapsed ? "hidden" : "w-full"
-            }`}
+          className={`p-6 transition-all duration-300 ${
+            isCollapsed ? "hidden" : "w-full"
+          }`}
         >
           <button
             onClick={handleLogout}
