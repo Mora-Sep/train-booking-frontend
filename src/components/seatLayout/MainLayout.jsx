@@ -7,6 +7,7 @@ import ThirdClassSeatLayout from "./ThirdClassSeatLayout";
 import PopoutCheckout from "./PopoutCheckout";
 import { UserGlobalState } from "../Layout/UserGlobalState"; // Use global state
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const MainLayout = ({
   TrainName,
@@ -24,6 +25,14 @@ const MainLayout = ({
   const [showCheckout, setShowCheckout] = useState(false);
   const { currentUserData } = UserGlobalState();
   const [checkoutRefID, setCheckoutRefID] = useState(null);
+
+
+  const navigate = useNavigate(); // Add the useNavigate hook
+  const isLoggedIn = Boolean(Cookies.get("access-token"));
+
+  const handleLoginRedirect = () => {
+    navigate("/login"); // Redirect to login page
+  };
 
   // Prices for each class
   const classPrices = {
@@ -253,11 +262,10 @@ const MainLayout = ({
           {["1st Class", "2nd Class", "3rd Class"].map((label, idx) => (
             <button
               key={idx}
-              className={`w-full mb-2 px-4 py-2 rounded ${
-                currentClass === idx + 1
-                  ? "bg-blue-700 text-white"
-                  : "bg-gray-200"
-              }`}
+              className={`w-full mb-2 px-4 py-2 rounded ${currentClass === idx + 1
+                ? "bg-blue-700 text-white"
+                : "bg-gray-200"
+                }`}
               onClick={() => {
                 setCurrentClass(idx + 1);
                 setCurrentCart(1);
@@ -295,7 +303,7 @@ const MainLayout = ({
                 className="text-red-500 hover:text-red-700"
                 onClick={() => handleRemoveSeat(seat)}
               >
-                <FaTrash /> {/* You can replace this with an icon */}
+                <FaTrash />
               </button>
             </li>
           ))}
@@ -305,16 +313,16 @@ const MainLayout = ({
           Price : Rs.{totalPrice}
         </h2>
         <button
-          className={`mt-4 px-4 py-2 rounded ${
-            selectedSeats.length === 0
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-700 text-white"
-          }`}
+          className={`mt-4 px-4 py-2 rounded ${selectedSeats.length === 0
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-700 text-white"
+            }`}
           disabled={selectedSeats.length === 0}
-          onClick={handleOpenCheckout}
+          onClick={isLoggedIn ? handleOpenCheckout : handleLoginRedirect} // Conditional behavior
         >
-          Proceed to Checkout
+          {isLoggedIn ? "Proceed to Checkout" : "Login to Proceed"}
         </button>
+
       </div>
     </div>
   );
