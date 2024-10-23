@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import TrainTable from "./../components/deo/TrainTable";
 import RouteTable from "../components/deo/RouteTable";
+import { toast } from "react-hot-toast";
 
 function ScheduleTrip() {
   function convertTo24HourFormat(time) {
@@ -85,7 +86,9 @@ function ScheduleTrip() {
           },
         }
       );
-      alert("Trip scheduled successfully");
+      toast.success("Trip scheduled successfully", {
+        className: "custom-toast",
+      });
       setTripDetails({
         routeID: "",
         trainCode: "",
@@ -96,7 +99,9 @@ function ScheduleTrip() {
       setIsScheduled(true);
     } catch (error) {
       console.error("Failed to schedule trip:", error);
-      alert("Failed to schedule trip");
+      toast.error("Failed to schedule trip. Please try again.", {
+        className: "custom-toast",
+      });
     }
   };
 
@@ -109,14 +114,19 @@ function ScheduleTrip() {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert("Station added successfully");
+      toast.success("Station added successfully", {
+        className: "custom-toast",
+      });
       setStationDetails({
+        ...stationDetails,
         code: "",
         sequence: "",
       });
     } catch (error) {
       console.log("Failed to add the station:", error);
-      alert(`Failed to add the station : ${error}`);
+      toast.error(`Failed to add the station : ${error}`, {
+        className: "custom-toast",
+      });
     }
   };
 
